@@ -70,7 +70,7 @@
           function sendData() { 
               var value = document.getElementById('input').value; 
               $.ajax({ 
-                  url: '/process', 
+                  url: '/process_print',
                   type: 'POST', 
                   contentType: 'application/json', 
                   data: JSON.stringify({ 'value': value }), 
@@ -92,9 +92,12 @@
   <div class="bottom-frame">
     <h3>Blocks</h3>
     </p></p>
-    <body> 
-      <input type="text" id="input"> 
-      <button onclick="sendData()">Send Data</button> 
+    <body>
+    <p>
+        print(
+      <input type="text" id="input"> )
+      <button onclick="sendData()">Add</button>
+    </p>
        
 
   </body>

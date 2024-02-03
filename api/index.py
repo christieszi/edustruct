@@ -24,12 +24,12 @@ def visual():
 
 last = ' '
 
-@app.route('/process', methods=['POST'])
+@app.route('/process_print', methods=['POST'])
 def process():
     global last
     data = request.get_json() # retrieve the data sent from JavaScript
     # process the data using Python code
     value = data['value']
-    last = last + value + "<br />"
+    last = last + "print(" + value + ")<br />"
     result = last
     return jsonify(result=result) # return the result to JavaScript
