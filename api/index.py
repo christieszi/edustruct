@@ -27,9 +27,10 @@ def process():
     data = request.get_json() # retrieve the data sent from JavaScript
     # process the data using Python code
     value = data['value']
-    last.append("print(" + value + ")")
+    last.append(value)
     result = '<br />'.join(str(x) for x in last)
     return jsonify(result=result) # return the result to JavaScript
+
 
 @app.route('/process_code', methods=['POST'])
 def process_code():
