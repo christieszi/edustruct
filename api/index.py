@@ -19,6 +19,10 @@ def excercise():
 def game():
     return render_template('index.html')
 
+@app.route('/TESTINO')
+def TESTINO():
+    return render_template('TESTINO.html')
+
 last = []
 
 @app.route('/process_print', methods=['POST'])
