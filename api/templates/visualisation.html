@@ -6,11 +6,11 @@
 </head> 
 <body> 
     <input type="text" id="input"> 
-    <button onclick="sendData()">Send Data</button> 
+    <button onclick="sendData({{ some_value }})">Send Data</button>
     <div id="output"></div> 
     <script> 
-        function sendData() { 
-            var value = document.getElementById('input').value; 
+        function sendData() {
+            var value = document.getElementById('input').value;
             $.ajax({ 
                 url: '/process', 
                 type: 'POST', 

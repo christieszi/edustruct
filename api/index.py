@@ -20,13 +20,16 @@ def game():
 
 @app.route('/visual')
 def visual():
-    return render_template('visualisation.html')
+    return render_template('visualisation.html', printed_texts='')
 
-last = []
+last = ' '
+
 @app.route('/process', methods=['POST'])
 def process():
+    global last
     data = request.get_json() # retrieve the data sent from JavaScript
     # process the data using Python code
-    last.append(data)
+    value = data['value']
+    last = last + value + "<br />"
     result = last
     return jsonify(result=result) # return the result to JavaScript
