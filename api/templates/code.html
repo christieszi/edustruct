@@ -28,7 +28,7 @@
     }
 
     .left-frame {
-      width: 200px;
+      width: 400px;
       background-color: #2ecc71;
     }
 
@@ -58,6 +58,7 @@
 
     <div class="left-frame">
       <h2>Left Frame</h2>
+        <div id="output_code"></div>
     </div>
 
     <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -82,7 +83,25 @@
                   } 
               }); 
           } 
-      </script> 
+      </script>
+        <button onclick="submit()">Submit</button>
+        <script>
+          function submit() {
+              var value = document.getElementById('input').value;
+              $.ajax({
+                  url: '/process_code',
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({ 'value': value }),
+                  success: function(response) {
+                      document.getElementById('output_code').innerHTML = response.result;
+                  },
+                  error: function(error) {
+                      console.log(error);
+                  }
+              });
+          }
+      </script>
       </body>
       </div>
     </div>
@@ -102,25 +121,6 @@
 
   </body>
   </div>
-
-  <script>
-    function allowDrop(event) {
-      event.preventDefault();
-    }
-
-    function drag(event) {
-      event.dataTransfer.setData("text", event.target.id);
-    }
-
-    function drop(event) {
-      event.preventDefault();
-      var data = event.dataTransfer.getData("text");
-      var draggableElement = document.getElementById(data);
-      var clone = draggableElement.cloneNode(true);
-      clone.id = "draggable" + (document.getElementById("right-frame-1").childElementCount + 1);
-      document.getElementById("right-frame-1").appendChild(clone);
-    }
-  </script>
 
 </body>
 </html>
