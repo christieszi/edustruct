@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
@@ -20,11 +20,11 @@ def game():
 
 @app.route('/visual')
 def visual():
-    return render_template('visualisation.html', printed_text="")
+    return render_template('visualisation.html')
 
-@app.route('/print_text', methods=['POST'])
-def print_text():
-    button_text = request.form['button_text']
-    current_text = request.form['current_text']
-    printed_texts = current_text + " new line print(" + button_text + ")"
-    return render_template('visualisation.html', printed_text=printed_texts)
+@app.route('/process', methods=['POST'])
+def process():
+    data = request.get_json() # retrieve the data sent from JavaScript
+    # process the data using Python code
+    result = data['value'] * 2
+    return jsonify(result=result) # return the result to JavaScript
