@@ -5,26 +5,22 @@ import sys
 from printing_problems import *
 
 def evaluate_code(code):
+    #Checks excution
     try:
         exec(code)
     except Exception as e:
-        print("error in code")
+        print("Execution error! Please check your Code")
         return e
     return None
 
 
 def capture_output(func):
-    # Create a string buffer
+    # Output of a function
     buffer = io.StringIO()
-    # Save the current stdout (usually the terminal/screen)
     old_stdout = sys.stdout
-    # Redirect stdout to the buffer
     sys.stdout = buffer
-    # Call the function
     func()
-    # Restore the original stdout
     sys.stdout = old_stdout
-    # Return what was captured
     return buffer.getvalue()
 
 
@@ -33,8 +29,11 @@ def get_block_string():
     # returns list of block strings
     pass
 
+
+
+#This only works for 1 Block however some challanges will have more than 1
 def replace_code_with_blocks(problem):
-    # replace block with result from get_block_string
+    # replace block with result from get_block_string while loop?
     code = ""
     l = 0
     r = 5
@@ -65,12 +64,7 @@ def test_evaluate_code():
     assert matches_regex(capture_output(test(user_problem5)), r"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$")
 
 def matches_regex(string, regex):
-    # pattern = r"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$"
+    #Validation test
     return bool(re.match(regex, string))
 
-#^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$  -Regex for a name supports multiple langauge
 
-
-# if __name__ == "__main__":
-#     i = 5
-#     assert i < 2, "No, i is greater than 2"

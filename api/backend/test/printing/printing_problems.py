@@ -31,3 +31,9 @@ user_problem5 = """
 def print_custom_name(name):
     print(name)
 """
+
+user_problemList= """
+ 
+stops = [<Block>, <Block>, <Block> ] 
+stops[Block] = 0 #Whatever output we are expecting
+"""
