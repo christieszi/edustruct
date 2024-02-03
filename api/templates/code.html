@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Draggable Elements</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -44,14 +45,7 @@
       position: relative;
     }
 
-    .draggable {
-      width: 50px;
-      height: 50px;
-      background-color: #f39c12;
-      margin: 10px;
-      cursor: grab;
-      user-drag: element;
-    }
+    
   </style>
 </head>
 <body>
@@ -68,21 +62,42 @@
 
     <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
       <div class="right-frame">
-        <h2>Right Frame 1</h2>
-        <div id="draggable1" class="draggable" draggable="true" ondragstart="drag(event)">1</div>
-      </div>
-      <div class="right-frame">
-        <h2>Right Frame 2</h2>
-      </div>
-      <div class="right-frame">
-        <h2>Right Frame 3</h2>
+        <body>
+        <h2>Code</h2>
+        <div id="output"></div>
+         
+        <script> 
+          function sendData() { 
+              var value = document.getElementById('input').value; 
+              $.ajax({ 
+                  url: '/process', 
+                  type: 'POST', 
+                  contentType: 'application/json', 
+                  data: JSON.stringify({ 'value': value }), 
+                  success: function(response) { 
+                      document.getElementById('output').innerHTML = response.result; 
+                  }, 
+                  error: function(error) { 
+                      console.log(error); 
+                  } 
+              }); 
+          } 
+      </script> 
+      </body>
       </div>
     </div>
 
   </div>
 
   <div class="bottom-frame">
-    <h3>Bottom Frame</h3>
+    <h3>Blocks</h3>
+    </p></p>
+    <body> 
+      <input type="text" id="input"> 
+      <button onclick="sendData()">Send Data</button> 
+       
+
+  </body>
   </div>
 
   <script>
