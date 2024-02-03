@@ -25,6 +25,8 @@ def format_code(code):
     formatted_code = re.sub(pattern, r'\1:\n    \2', code)
     return formatted_code
 
+inputgiven = "print('Hello World')"
+
 if __name__ == "__main__":
-    evaluate_code("print('hello world')")
+    evaluate_code(inputgiven)
     
