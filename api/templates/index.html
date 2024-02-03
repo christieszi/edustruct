@@ -1,0 +1,52 @@
+{% extends "master.html" %}
+
+<!-- set the title of title -->
+{% block title %}Home{% endblock %}
+
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock head %}
+
+{% block body %}
+
+
+<div class="header">
+    <h1>Welcome to EduStruct</h1>
+</div>
+
+<nav class="topnav">
+    <a class="active" href="">Home</a>
+    <a href="exercises">Exercises</a>
+    <a href="about">About</a>
+</nav>
+
+<div class="main-container">
+
+    <div class="top-frame">
+        <h2>The best introduction to coding</h2>
+    </div>
+
+    <div class="middle-frame">
+        <div class="inner-middle-frame">
+            <h2>Frame 1</h2>
+        </div>
+        <div class="inner-middle-frame">
+            <h2>Frame 2</h2>
+        </div>
+        <div class="inner-middle-frame">
+            <h2>Frame 3</h2>
+        </div>
+        <div class="inner-middle-frame">
+            <h2>Frame 4</h2>
+        </div>
+    </div>
+
+</div>
+
+<div class="bottom-frame">
+    <h3>Bottom Frame</h3>
+</div>
+
+{% endblock body %}

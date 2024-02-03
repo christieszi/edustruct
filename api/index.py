@@ -6,7 +6,7 @@ app.config['APP_NAME'] = 'EduStruct'
 
 @app.route('/')
 def home():
-    return render_template('welcome-page.html')
+    return render_template('index.html')
 
 @app.route('/about')
 def about():
