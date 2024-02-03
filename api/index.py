@@ -11,8 +11,8 @@ def home():
 def about():
     return 'About'
 
-@app.route('/excercise')
-def excercise():
+@app.route('/exercise')
+def exercise():
     return render_template('code.html')
 
 @app.route('/game')
