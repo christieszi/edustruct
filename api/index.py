@@ -13,3 +13,7 @@ def about():
 @app.route('/excercise')
 def excercise():
     return render_template('code.html')
+
+@app.route('/game')
+def game():
+    return render_template('index.html')
