@@ -22,7 +22,7 @@ def game():
 def visual():
     return render_template('visualisation.html', printed_texts='')
 
-last = ' '
+last = []
 
 @app.route('/process_print', methods=['POST'])
 def process():
@@ -30,6 +30,6 @@ def process():
     data = request.get_json() # retrieve the data sent from JavaScript
     # process the data using Python code
     value = data['value']
-    last = last + "print(" + value + ")<br />"
-    result = last
+    last.append("print(" + value + ")<br />")
+    result = ''.join(str(x) for x in last)
     return jsonify(result=result) # return the result to JavaScript
