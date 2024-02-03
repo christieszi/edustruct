@@ -1,0 +1,17 @@
+<nav>
+    <div class="nav-container">
+        <div class="nav-logo">
+            <a href="index.html">
+                <img src="{{ url_for('static', filename='assets/logo.svg') }}" alt="EduStruct Logo" />
+                <!-- {{ config['APP_NAME'] }} -->
+            </a>
+        </div>
+        <ul>
+            <li><a href="">Home</a></li>
+            <li><a href="exercises">Exercises</a></li>
+            <li><a href="about">About</a></li>
+        </ul>
+        <div class="sign-up btn btn-primary text-white rounded-lg">
+            <a href="sign-up" class="text-white text-decoration-none no-underline">Sign Up</a>
+        </div>
+</nav>
