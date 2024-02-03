@@ -3,10 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game</title>
+    <title>Character Movement Game</title>
+    <style>
+        #character {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
 </head>
 <body>
-    <!-- Embed your Pygame canvas here -->
-    <iframe src="{{ url_for('game', filename='Jeux.py') }}" width="600" height="400"></iframe>
+
+    <div id="character"></div>
+<button onclick="moveCharacter('up')">Move Up</button>
+   <button onclick="moveCharacter('down')">Move Down</button>
+   <button onclick="moveCharacter('left')">Move Left</button>
+   <button onclick="moveCharacter('right')">Move Right</button>
+
+   <script>
+       function moveCharacter(direction) {
+           const character = document.getElementById("character");
+           const speed = 10;
+
+           let currentTop = parseInt(character.style.top) || 0;
+           let currentLeft = parseInt(character.style.left) || 0;
+
+           switch (direction) {
+               case 'up':
+                   character.style.top = (currentTop - speed) + "px";
+                   break;
+               case 'down':
+                   character.style.top = (currentTop + speed) + "px";
+                   break;
+               case 'left':
+                   character.style.left = (currentLeft - speed) + "px";
+                   break;
+               case 'right':
+                   character.style.left = (currentLeft + speed) + "px";
+                   break;
+           }
+       }
+   </script>
+
+
 </body>
 </html>

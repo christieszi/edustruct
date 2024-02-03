@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Layout Example</title>
+  <title>Draggable Elements</title>
   <style>
     body {
       margin: 0;
@@ -13,7 +13,7 @@
       height: 100vh;
     }
 
-    .top-frame {
+    .top-frame, .bottom-frame {
       height: 100px;
       background-color: #3498db;
       display: flex;
@@ -41,14 +41,16 @@
       flex: 1;
       background-color: #e74c3c;
       margin: 10px;
+      position: relative;
     }
 
-    .bottom-frame {
+    .draggable {
+      width: 50px;
       height: 50px;
       background-color: #f39c12;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      margin: 10px;
+      cursor: grab;
+      user-drag: element;
     }
   </style>
 </head>
@@ -64,9 +66,10 @@
       <h2>Left Frame</h2>
     </div>
 
-    <div class="right-frames">
+    <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
       <div class="right-frame">
         <h2>Right Frame 1</h2>
+        <div id="draggable1" class="draggable" draggable="true" ondragstart="drag(event)">1</div>
       </div>
       <div class="right-frame">
         <h2>Right Frame 2</h2>
@@ -81,6 +84,25 @@
   <div class="bottom-frame">
     <h3>Bottom Frame</h3>
   </div>
+
+  <script>
+    function allowDrop(event) {
+      event.preventDefault();
+    }
+
+    function drag(event) {
+      event.dataTransfer.setData("text", event.target.id);
+    }
+
+    function drop(event) {
+      event.preventDefault();
+      var data = event.dataTransfer.getData("text");
+      var draggableElement = document.getElementById(data);
+      var clone = draggableElement.cloneNode(true);
+      clone.id = "draggable" + (document.getElementById("right-frame-1").childElementCount + 1);
+      document.getElementById("right-frame-1").appendChild(clone);
+    }
+  </script>
 
 </body>
 </html>
