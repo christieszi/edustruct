@@ -130,11 +130,13 @@
     <h3>Blocks</h3>
     </p></p>
     <body>
+    {% if print_button %}
     <p>
         print(
       <input type="text" id="input"> )
       <button onclick="sendData()">Add</button>
     </p>
+    {% endif %}
        
 
   </body>

@@ -11,13 +11,13 @@ def home():
 def about():
     return 'About'
 
-@app.route('/excercise')
-def excercise():
-    return render_template('code.html')
+@app.route('/1')
+def excercise1():
+    return render_template('code.html', print_button=True)
 
-@app.route('/game')
-def game():
-    return render_template('index.html')
+@app.route('/2')
+def excercise2():
+    return render_template('code.html', print_button=False)
 
 @app.route('/TESTINO')
 def TESTINO():
