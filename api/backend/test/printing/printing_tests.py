@@ -30,6 +30,7 @@ def capture_output(func):
 
 # get the string of the block the user has chosen
 def get_block_string():
+    # returns list of block strings
     pass
 
 def replace_code_with_blocks(problem):
@@ -44,9 +45,11 @@ def replace_code_with_blocks(problem):
             l += 1
             r += 1
         else:
-            code += get_block_string()
-            l += len(get_block_string())
-            r += len(get_block_string())
+            code += get_block_string()[0]
+            l += len(get_block_string()[0])
+            r += len(get_block_string()[0])
+            # remove first element from list
+            get_block_string().pop(0)
     return code
 
 def test(problem):
@@ -59,7 +62,7 @@ def test_evaluate_code():
     assert capture_output(test(user_problem2))== "John\nAdam"
     assert capture_output(test(user_problem3)) == "Harry\n25"
     assert capture_output(test(user_problem4)) == "full name: Adam Smith"
-    assert matches_regex(capture_output(test(user_problem5)), r"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$" )
+    assert matches_regex(capture_output(test(user_problem5)), r"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$")
 
 def matches_regex(string, regex):
     # pattern = r"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$"
