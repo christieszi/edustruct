@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Layout Example</title>
+  <title>Draggable Elements</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -13,7 +14,7 @@
       height: 100vh;
     }
 
-    .top-frame {
+    .top-frame, .bottom-frame {
       height: 100px;
       background-color: #3498db;
       display: flex;
@@ -27,7 +28,7 @@
     }
 
     .left-frame {
-      width: 200px;
+      width: 400px;
       background-color: #2ecc71;
     }
 
@@ -41,15 +42,10 @@
       flex: 1;
       background-color: #e74c3c;
       margin: 10px;
+      position: relative;
     }
 
-    .bottom-frame {
-      height: 50px;
-      background-color: #f39c12;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+    
   </style>
 </head>
 <body>
@@ -62,24 +58,68 @@
 
     <div class="left-frame">
       <h2>Left Frame</h2>
+        <div id="output_code"></div>
     </div>
 
-    <div class="right-frames">
+    <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
       <div class="right-frame">
-        <h2>Right Frame 1</h2>
-      </div>
-      <div class="right-frame">
-        <h2>Right Frame 2</h2>
-      </div>
-      <div class="right-frame">
-        <h2>Right Frame 3</h2>
+        <body>
+        <h2>Code</h2>
+        <div id="output"></div>
+         
+        <script> 
+          function sendData() { 
+              var value = document.getElementById('input').value; 
+              $.ajax({ 
+                  url: '/process_print',
+                  type: 'POST', 
+                  contentType: 'application/json', 
+                  data: JSON.stringify({ 'value': value }), 
+                  success: function(response) { 
+                      document.getElementById('output').innerHTML = response.result; 
+                  }, 
+                  error: function(error) { 
+                      console.log(error); 
+                  } 
+              }); 
+          } 
+      </script>
+        <button onclick="submit()">Submit</button>
+        <script>
+          function submit() {
+              var value = document.getElementById('input').value;
+              $.ajax({
+                  url: '/process_code',
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({ 'value': value }),
+                  success: function(response) {
+                      document.getElementById('output_code').innerHTML = response.result;
+                  },
+                  error: function(error) {
+                      console.log(error);
+                  }
+              });
+          }
+      </script>
+      </body>
       </div>
     </div>
 
   </div>
 
   <div class="bottom-frame">
-    <h3>Bottom Frame</h3>
+    <h3>Blocks</h3>
+    </p></p>
+    <body>
+    <p>
+        print(
+      <input type="text" id="input"> )
+      <button onclick="sendData()">Add</button>
+    </p>
+       
+
+  </body>
   </div>
 
 </body>
