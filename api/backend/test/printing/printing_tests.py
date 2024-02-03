@@ -48,8 +48,10 @@ def replace_code_with_blocks(problem):
             code += get_block_string()[0]
             l += len(get_block_string()[0])
             r += len(get_block_string()[0])
+
             # remove first element from list
             get_block_string().pop(0)
+
     return code
 
 def test(problem):
