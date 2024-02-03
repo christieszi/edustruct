@@ -1,17 +1,31 @@
 <nav>
-    <div class="nav-container">
+    <div class="nav-container d-flex justify-content-between w-100 h-100 text-center align-items-center container">
         <div class="nav-logo">
-            <a href="index.html">
+            <a href="{{ url_for('home') }}">
                 <img src="{{ url_for('static', filename='assets/logo.svg') }}" alt="EduStruct Logo" />
                 <!-- {{ config['APP_NAME'] }} -->
             </a>
         </div>
-        <ul>
-            <li><a href="">Home</a></li>
-            <li><a href="exercises">Exercises</a></li>
-            <li><a href="about">About</a></li>
+        <ul class=" nav-links d-flex gap-4  justify-content-center align-items-center h-100 align-self-center">
+            <li class="nav-link">
+                <a href="{{ url_for('home') }}">
+                    Home
+                </a>
+            </li>
+            <li class="nav-link">
+                <a href="{{ url_for('exercises') }}">
+                    Exercises
+                </a>
+            </li>
+            <li class="nav-link">
+                <a href="{{ url_for('about') }}">
+                    About
+                </a>
+            </li>
         </ul>
-        <div class="sign-up btn btn-primary text-white rounded-lg">
-            <a href="sign-up" class="text-white text-decoration-none no-underline">Sign Up</a>
+        <div class="nav-sign-up-btn-container">
+            <div class="sign-up btn btn-primary text-white rounded-lg">
+                <a href="sign-up" class="text-white text-decoration-none no-underline">Sign Up</a>
+            </div>
         </div>
 </nav>

@@ -1,9 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 
 app = Flask(__name__, static_url_path='/static')
 # replace the name of the app with the name of our app
 app.config['APP_NAME'] = 'EduStruct'
 
+@app.route('/index')
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -13,5 +14,5 @@ def about():
     return 'About'
 
 @app.route('/exercises')
-def excercises():
+def exercises():
     return render_template('exercise.html')

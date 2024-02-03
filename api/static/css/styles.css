@@ -1,10 +1,17 @@
 :root {
-  --main-color: #2ecc71;
-  --secondary-color: #e74c3c;
-  --third-color: #f39c12;
-  --fourth-color: #afd8f3;
+  --primary-color: #ffd166;
+  --secondary-color: #afca05;
+  --accent-color: #ef476f;
+  --background-color: #fff;
+  --dark-color: #020f13;
 
-  --background-gradient: linear-gradient(to right, #ffd200, #f7971e);
+  --background-gradient: linear-gradient(to left, #ffd200, #f7971e);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* body {
@@ -16,11 +23,26 @@
 } */
 
 nav {
-  /* display: flex; */
+  display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--background-gradient);
-  height: 70px;
+  background: var(--background-gradient);
+  background: transparent;
+  height: 80px;
+  z-index: 100;
+}
+
+nav a {
+  color: var(--dark-color);
+  text-decoration: none;
+  /* padding: 0 20px; */
+  font-size: 1.2rem;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
 }
 
 nav img {
@@ -52,12 +74,12 @@ nav img {
 .topnav a:hover {
   background-color: #afd8f3;
 }
-
+/* 
 .main-container {
-  display: flex;
+  display: none;
   flex: 1;
   flex-direction: column;
-}
+} */
 
 .main-content {
   display: flex;
