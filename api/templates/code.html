@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout Example</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .top-frame {
+      height: 100px;
+      background-color: #3498db;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main-container {
+      display: flex;
+      flex: 1;
+    }
+
+    .left-frame {
+      width: 200px;
+      background-color: #2ecc71;
+    }
+
+    .right-frames {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .right-frame {
+      flex: 1;
+      background-color: #e74c3c;
+      margin: 10px;
+    }
+
+    .bottom-frame {
+      height: 50px;
+      background-color: #f39c12;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-frame">
+    <h1>Top Frame</h1>
+  </div>
+
+  <div class="main-container">
+
+    <div class="left-frame">
+      <h2>Left Frame</h2>
+    </div>
+
+    <div class="right-frames">
+      <div class="right-frame">
+        <h2>Right Frame 1</h2>
+      </div>
+      <div class="right-frame">
+        <h2>Right Frame 2</h2>
+      </div>
+      <div class="right-frame">
+        <h2>Right Frame 3</h2>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-frame">
+    <h3>Bottom Frame</h3>
+  </div>
+
+</body>
+</html>
