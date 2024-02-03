@@ -1,3 +1,7 @@
+import re
+import io
+import sys
+
 from printing_problems import *
 
 def evaluate_code(code):
@@ -7,6 +11,22 @@ def evaluate_code(code):
         print("error in code")
         return e
     return None
+
+
+def capture_output(func):
+    # Create a string buffer
+    buffer = io.StringIO()
+    # Save the current stdout (usually the terminal/screen)
+    old_stdout = sys.stdout
+    # Redirect stdout to the buffer
+    sys.stdout = buffer
+    # Call the function
+    func()
+    # Restore the original stdout
+    sys.stdout = old_stdout
+    # Return what was captured
+    return buffer.getvalue()
+
 
 # get the string of the block the user has chosen
 def get_block_string():
@@ -28,6 +48,24 @@ def replace_code_with_blocks(problem):
             l += len(get_block_string())
             r += len(get_block_string())
     return code
+
+def test(problem):
+    code = replace_code_with_blocks(problem)
+    return evaluate_code(code)
+
+# unit tests
+def test_evaluate_code():
+    assert capture_output(test(user_problem1)) == "Hello world"
+    assert capture_output(test(user_problem2))== "John\nAdam"
+    assert capture_output(test(user_problem3)) == "Harry\n25"
+    assert capture_output(test(user_problem4)) == "full name: Adam Smith"
+    assert matches_regex(capture_output(test(user_problem5)), r"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$" )
+
+def matches_regex(string, regex):
+    # pattern = r"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$"
+    return bool(re.match(regex, string))
+
+#^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$  -Regex for a name supports multiple langauge
 
 
 # if __name__ == "__main__":

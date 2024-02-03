@@ -14,15 +14,20 @@ def print_name():
 
 # print arguments
 user_problem3 = """
-def print_name_age(name, age):
+def print_name_age('Harry', 25):
     block
     block
 """
 
 # concatenation
-# print("name: " + name + " surname: " + surname)
+# print("fullname: " + name + " " + surname)
 user_problem4 = """
-def print_name_age(firstname, surname):
+def print_name_age('Adam', 'Smith'):
     block
 """
 
+# custom name
+user_problem5 = """
+def print_custom_name(name):
+    print(name)
+"""
