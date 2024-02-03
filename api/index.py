@@ -71,3 +71,8 @@ def process_del():
     else:
         result = ""
     return jsonify(result=result) # return the result to JavaScript
+
+@app.route('/monkey')
+def monkey():
+    monkey_position = {'x': 0, 'y': 0}
+    return render_template('monkey.html', monkey_position=monkey_position)
