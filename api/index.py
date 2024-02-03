@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+import io, sys
 
 app = Flask(__name__)
 
@@ -18,10 +19,6 @@ def excercise():
 def game():
     return render_template('index.html')
 
-@app.route('/visual')
-def visual():
-    return render_template('visualisation.html', printed_texts='')
-
 last = []
 
 @app.route('/process_print', methods=['POST'])
@@ -38,6 +35,10 @@ def process():
 def process_code():
     global last
     code = "\n".join(last)
-    print("Code = " + code)
-    result = eval(code)
+    old_stdout = sys.stdout
+    new_stdout = io.StringIO()
+    sys.stdout = new_stdout
+    exec(code)
+    result = sys.stdout.getvalue()
+    sys.stdout = old_stdout
     return jsonify(result=result) # return the result to JavaScript
