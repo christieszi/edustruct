@@ -53,3 +53,14 @@ def process_code():
 
     
     return jsonify(result=result) # return the result to JavaScript
+
+@app.route('/process_del', methods=['POST'])
+def process_del():
+    global last
+    if last:
+        last.pop()
+    if last:
+        result = '<br />'.join(str(x) for x in last)
+    else:
+        result = ""
+    return jsonify(result=result) # return the result to JavaScript

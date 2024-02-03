@@ -102,7 +102,7 @@
               }); 
           } 
       </script>
-        <button onclick="submit()">Submit</button>
+        <button onclick="submit()">Run</button>
         <script>
           function submit() {
               var value = document.getElementById('input').value;
@@ -120,6 +120,22 @@
               });
           }
       </script>
+      <button onclick="poppy()">Delete Last</button>
+      <script>
+        function poppy() {
+            $.ajax({
+                url: '/process_del',
+                type: 'POST',
+                contentType: 'application/json',
+                success: function(response) {
+                    document.getElementById('output').innerHTML = response.result;
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
       </body>
       </div>
     </div>
