@@ -31,6 +31,7 @@ def process():
     result = '<br />'.join(str(x) for x in last)
     return jsonify(result=result) # return the result to JavaScript
 
+result = "Syntax Error"
 @app.route('/process_code', methods=['POST'])
 def process_code():
     global last
@@ -38,7 +39,13 @@ def process_code():
     old_stdout = sys.stdout
     new_stdout = io.StringIO()
     sys.stdout = new_stdout
-    exec(code)
-    result = sys.stdout.getvalue()
-    sys.stdout = old_stdout
+    try: 
+        exec(code)
+        result = sys.stdout.getvalue()
+        sys.stdout = old_stdout
+        
+    except:
+        result = "Syntax Error"
+
+    
     return jsonify(result=result) # return the result to JavaScript
