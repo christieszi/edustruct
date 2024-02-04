@@ -48,34 +48,34 @@ def process_print():
     result = '<br />'.join(str(x) for x in last)
     return jsonify(result=result)  # return the result to JavaScript
 
-
+last2 = []
 last_scaled = []
 
 
 @app.route('/process_assign', methods=['POST'])
 def process_assign():
-    global last
     global last_scaled
     data = request.get_json()  # retrieve the data sent from JavaScript
     # process the data using Python code
     value = data['value']
     var_name = data['var']
-    last.append(var_name + " = " + value)
+    last2.append(var_name + " = " + value)
     last_scaled.append(var_name + " = 100*(" + value + ")")
-    result = '<br />'.join(str(x) for x in last)
+    result = '<br />'.join(str(x) for x in last2)
     return jsonify(result=result)  # return the result to JavaScript
 
+last3 = []
 
 @app.route('/process_list_assign', methods=['POST'])
 def process_list_assign():
-    global last
+    global last3
     data = request.get_json()  # retrieve the data sent from JavaScript
     # process the data using Python code
     print("aaaaaa")
     value = data['value']
     var_name = data['var']
-    last.append(var_name + " = [" + value + "]")
-    result = '<br />'.join(str(x) for x in last)
+    last3.append(var_name + " = [" + value + "]")
+    result = '<br />'.join(str(x) for x in last3)
     return jsonify(result=result)  # return the result to JavaScript
 
 
@@ -84,16 +84,16 @@ index = 0
 
 @app.route('/process_list_access', methods=['POST'])
 def process_list_access():
-    global last
+    global last3
     global index
     data = request.get_json()  # retrieve the data sent from JavaScript
     # process the data using Python code
     list_name = data['listName']
     var_name = data['var']
     index_val = data['index']
-    last.append(var_name + " = " + list_name + "[" + index_val + "]")
+    last3.append(var_name + " = " + list_name + "[" + index_val + "]")
     index = int(index_val)
-    result = '<br />'.join(str(x) for x in last)
+    result = '<br />'.join(str(x) for x in last3)
     return jsonify(result=result)  # return the result to JavaScript
 
 
@@ -103,7 +103,7 @@ y = 4
 
 @app.route('/process_code', methods=['POST'])
 def process_code():
-    global last
+    global last2
     global x
     global y
     print("yooooo")
@@ -133,11 +133,11 @@ def process_code():
 
 @app.route('/process_code_list', methods=['POST'])
 def process_code_list():
-    global last
+    global last3
     global index
     last_editted = []
     last_editted.insert(0, "val=None")
-    for elem in last:
+    for elem in last3:
         last_editted.append(elem)
     for i in range(5):
         last_editted.append('l' + str(i) + ' = my_list[' + str(i) + '] if len(my_list) > ' + str(i) + ' else ""')
@@ -191,6 +191,30 @@ def process_del():
         last.pop()
     if last:
         result = '<br />'.join(str(x) for x in last)
+    else:
+        result = ""
+    return jsonify(result=result)  # return the result to JavaScript
+
+@app.route('/process_del2', methods=['POST'])
+def process_del2():
+    global last2
+    global last_scaled
+    if last2 and last_scaled:
+        last2.pop()
+        last_scaled.pop()
+    if last2:
+        result = '<br />'.join(str(x) for x in last2)
+    else:
+        result = ""
+    return jsonify(result=result)  # return the result to JavaScript
+
+@app.route('/process_del3', methods=['POST'])
+def process_del3():
+    global last3
+    if last3:
+        last3.pop()
+    if last3:
+        result = '<br />'.join(str(x) for x in last3)
     else:
         result = ""
     return jsonify(result=result)  # return the result to JavaScript
