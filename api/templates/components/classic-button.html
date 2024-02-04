@@ -1,5 +1,5 @@
-{% macro button(text, icon=None, color_btn=None) %}
-<button class="button-82-pushable" role="button">
+{% macro button(text, icon=None, color_btn=None, btn_id=None) %}
+<button class="button-82-pushable" role="button" {% if btn_id %} id="{{btn_id}}" {% endif %}>
     <span class="button-82-shadow"></span>
     <span {% if color_btn %} class="button-82-edge {{color_btn}}" {% else %} class="button-82-edge" {% endif %}>
     </span>
