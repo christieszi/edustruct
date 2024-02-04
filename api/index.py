@@ -11,7 +11,8 @@ def home():
 
 @app.route('/about')
 def about():
-    return 'About'
+    return render_template('about.html')
+
 
 @app.route('/exercises')
 def exercises():
