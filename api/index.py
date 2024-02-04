@@ -75,11 +75,13 @@ def process_list_access():
 x = 0
 y = 4
 
+
 @app.route('/process_code', methods=['POST'])
 def process_code():
     global last
     global x
     global y
+    print("yooooo")
     last_editted = []
     last_editted.insert(0, "x=" + str(x))
     last_editted.insert(0, "y=" + str(y))

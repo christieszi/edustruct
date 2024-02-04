@@ -107,13 +107,14 @@
 
   <div class="main-container">
       <div class="container_image">
-        <img id="moving-image" src="{{ url_for('static', filename='monkey.png') }}" alt="Moving Image">
       <img id="moving-image2" src="{{ url_for('static', filename='banana.jpg') }}" alt="Moving Image">
+      <img id="moving-image" src="{{ url_for('static', filename='monkey.png') }}" alt="Moving Image">
 
       <div class="grid-container">
           {% for x in range(5) %}
               {% for y in range(5) %}
                       <div style="width: 100px; height: 100px; border: 1px solid #ddd;"></div>
+                      {{ x }}, {{ y }}
               {% endfor %}
           {% endfor %}
       </div>
