@@ -13,25 +13,32 @@ def about():
 
 @app.route('/1')
 def excercise1():
-    return render_template('code.html', print_button=True)
+    return render_template('code.html', print_button=True, assign_vars = False)
 
 @app.route('/2')
 def excercise2():
-    return render_template('code.html', print_button=False)
-
-@app.route('/TESTINO')
-def TESTINO():
-    return render_template('TESTINO.html')
+    return render_template('code.html', print_button=False, assign_vars = True)
 
 last = []
 
 @app.route('/process_print', methods=['POST'])
-def process():
+def process_print():
     global last
     data = request.get_json() # retrieve the data sent from JavaScript
     # process the data using Python code
     value = data['value']
     last.append("print(" + value + ")")
+    result = '<br />'.join(str(x) for x in last)
+    return jsonify(result=result) # return the result to JavaScript
+
+@app.route('/process_assign', methods=['POST'])
+def process_assign():
+    global last
+    data = request.get_json() # retrieve the data sent from JavaScript
+    # process the data using Python code
+    value = data['value']
+    var_name = data['var']
+    last.append(var_name + " = " + value)
     result = '<br />'.join(str(x) for x in last)
     return jsonify(result=result) # return the result to JavaScript
 
@@ -64,3 +71,8 @@ def process_del():
     else:
         result = ""
     return jsonify(result=result) # return the result to JavaScript
+
+@app.route('/monkey')
+def monkey():
+    monkey_position = {'x': 0, 'y': 0}
+    return render_template('monkey.html', monkey_position=monkey_position)
