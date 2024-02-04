@@ -1,45 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "master.html" %}
+<!-- {% from "components/cards.html" import card %} -->
+{% from "components/classic-button.html" import button %}
 
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}"> 
+{% from "components/exercise-item.html" import exercise_item %}
 
-  <title>Exercise</title>
-</head>
-<body>
 
-  <div class="header">
-    <h1>Exercise</h1>
-  </div>
+<!-- set the title of title -->
+{% block title %}List of Exercise{% endblock %}
 
-  <div class="main-container">
 
-    <div class="main-content">
+{% block head %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-      <div class="code-view-frame"> 
 
-        <div class="view-frame">
-          <h2>View Frame</h2>
-        </div>
+{% endblock head %}
 
-        <div class="code-frame">
-          <h2>Code Frame</h2>
+{% block body %}
+
+
+{% include "components/exercise-navbar.html" %}
+
+
+<main class="exercises-list-main container d-flex gap-5 align-items-center justify-content-center  rounded">
+  <div class="exercise-container container d-flex flex-row align-items-center h-100 w-100 justify-content-center gap-5">
+    <div class="exercise-container content h-100 w-100 d-flex flex-column align-items-start justify-content-center">
+      <div class="exercise-container-heading-content d-flex flex-column  justify-content-start text-start">
+        <h1 class="text-header h1 fs-3 fw-bolder text-capitalize">List of Exercises</h1>
+        <p class="text-muted text-small small">Select an exercise to start learning</p>
+      </div>
+      <div class="exercise-header d-flex flex-column  bg-light h-75 w-100 rounded">
+        <div class="exercise-list-tab-titles-container">
+          <!-- <div class="excercise-list-tab-content-container"> -->
+          <div class="exercise-list-tab-title w-100 text-center">
+            <!-- FIXME: Iterate the list of exercise -->
+
+            {% for i in range(1, 4) %}
+            <div class="exercise-list-tab-icon-container py-3 ">
+              <a href="exercises/{{i}}" class="exercise-list-tab-icon-content">
+                <!-- <i class="fa-duotone fa-code fs-2"></i> -->
+                <span class="text-header h3 fs-5 fw-bolder text-capitalize">Exercise {{i}}</span>
+            </div>
+            {% endfor %}
+
+            <div class="exercise-list-btn-container text-center mt-5">
+              {{ button('Start Exercise', 'fa-duotone fa-play', 'green') }}
+            </div>
+            <!-- </div> -->
+          </div>
         </div>
       </div>
-
-      <div class="blocks-frame">
-        <h2>Blocks Frame</h2>
+      <div class=" exercise-animated-svg-container h-100 w-100 rounded">
       </div>
-
     </div>
-
   </div>
+</main>
 
-  <div class="bottom-frame">
-    <h3>Bottom Frame</h3>
-  </div>
-
-</body>
-</html>
+<script>
+  $(document).ready(function () {
+    var navbarHeight = $('.navbar').outerHeight();
+    console.log(navbarHeight);
+    $('.exercises-list-main').css('height', 'calc(100vh - ' + navbarHeight + 'px)');
+  });
+</script>
+{% endblock body %}

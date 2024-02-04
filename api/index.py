@@ -16,4 +16,4 @@ def about():
 
 @app.route('/exercises')
 def exercises():
-    return render_template('exercise.html')
+    return render_template('exercises.html')
