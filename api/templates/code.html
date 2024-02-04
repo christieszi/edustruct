@@ -28,7 +28,7 @@
     }
 
     .left-frame {
-      width: 400px;
+      width: 800px;
       background-color: #2ecc71;
     }
 
@@ -44,6 +44,31 @@
       margin: 10px;
       position: relative;
     }
+    .container {
+    position: relative;
+    text-align: center;
+    color: white;
+    }
+    
+    /* Centered text */
+    .centered {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(5, 100px); /* Adjust the number of columns as needed */
+        grid-gap: 10px;
+    }
+
+        /* Style for the monkey image */
+    .monkey {
+        width: 100%;
+        height: auto;
+    }
 
     
   </style>
@@ -58,10 +83,12 @@
 
     <div class="left-frame">
       <h2>Output</h2>
-      <img src="image.jpg" alt="Description of the image">
-
-    
-        <div id="output_code"></div>
+      <div class="container">
+        <img src="{{ url_for('static', filename='OUTPUTT.jpg')}}" alt = "Image">
+        <div class="centered">
+          <div id = "output_code"></div>
+        </div>
+      </div>
     </div>
 
     <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -85,9 +112,25 @@
                       console.log(error); 
                   } 
               }); 
-          } 
+          }
+          function sendDataAssignVar() {
+              var value = document.getElementById('input_var_val').value;
+              var varName = document.getElementById('input_var_name').value;
+              $.ajax({
+                  url: '/process_assign',
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({ 'value': value, 'var': varName}),
+                  success: function(response) {
+                      document.getElementById('output').innerHTML = response.result;
+                  },
+                  error: function(error) {
+                      console.log(error);
+                  }
+              });
+          }
       </script>
-        <button onclick="submit()">Submit</button>
+        <button onclick="submit()">Run</button>
         <script>
           function submit() {
               var value = document.getElementById('input').value;
@@ -105,21 +148,49 @@
               });
           }
       </script>
+      <button onclick="poppy()">Delete Last</button>
+      <script>
+        function poppy() {
+            $.ajax({
+                url: '/process_del',
+                type: 'POST',
+                contentType: 'application/json',
+                success: function(response) {
+                    document.getElementById('output').innerHTML = response.result;
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
       </body>
-      </div>
+      
+    
+  
+    </div>
+    <div class="right-middle-frame">
+      <h3>Questions</h3>
     </div>
 
-  </div>
-
   <div class="bottom-frame">
-    <h3>Blocks</h3>
+    <h3>Blocks&nbsp; </h3>
     </p></p>
     <body>
+    {% if print_button %}
     <p>
         print(
       <input type="text" id="input"> )
       <button onclick="sendData()">Add</button>
     </p>
+    {% endif %}
+    {% if assign_vars%}
+    <p>
+      <input type="text" id="input_var_name"> =
+      <input type="text" id="input_var_val">
+      <button onclick="sendDataAssignVar()">Add</button>
+    </p>
+    {% endif %}
        
 
   </body>
