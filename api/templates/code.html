@@ -199,7 +199,6 @@
                   contentType: 'application/json',
                   data: JSON.stringify({ }),
                   success: function(response) {
-                      document.getElementById('output_code_1').innerHTML = (response.result_x);
                       image.style.left = response.result_x + 'px'
                       image.style.top = response.result_y + 'px'
                   },

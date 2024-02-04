@@ -51,11 +51,12 @@ def process_code():
     global last
     global x
     global y
-    last_editted = last
+    last_editted = []
     last_editted.insert(0, "x=" + str(x))
     last_editted.insert(0, "y=" + str(y))
+    for elem in last:
+        last_editted.append(elem)
     code = "\n".join(last_editted)
-    print(code)
     old_stdout = sys.stdout
     new_stdout = io.StringIO()
     sys.stdout = new_stdout
@@ -70,7 +71,7 @@ def process_code():
 
     x = loc['x']
     y = loc['y']
-    return jsonify(result_x=x, result_y=y) # return the result to JavaScript
+    return jsonify(result = result, result_x=x, result_y=y) # return the result to JavaScript
 
 @app.route('/process_del', methods=['POST'])
 def process_del():
