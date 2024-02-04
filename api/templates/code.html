@@ -70,6 +70,24 @@
         height: auto;
     }
 
+          /* Style for the container */
+        .container_image {
+            position: relative;
+            width: 500px; /* Adjust the width as needed */
+            height: 500px; /* Adjust the height as needed */
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        /* Style for the moving image */
+        #moving-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px; /* Adjust the width as needed */
+            height: 50px; /* Adjust the height as needed */
+        }
+
     
   </style>
 </head>
@@ -80,9 +98,10 @@
   </div>
 
   <div class="main-container">
-
+    {% if print_button %}
     <div class="left-frame">
       <h2>Output</h2>
+         <div>{{ return_x() }}</div>
       <div class="container">
         <img src="{{ url_for('static', filename='OUTPUTT.jpg')}}" alt = "Image">
         <div class="centered">
@@ -90,6 +109,44 @@
         </div>
       </div>
     </div>
+      {% endif %}
+  {% if assign_vars %}
+      <div class="container_image">
+        <img id="moving-image" src="{{ url_for('static', filename='monkey.png') }}" alt="Moving Image">
+    </div>
+
+    <button onclick="moveImage('up')">Move Up</button>
+    <button onclick="moveImage('down')">Move Down</button>
+    <button onclick="moveImage('left')">Move Left</button>
+    <button onclick="moveImage('right')">Move Right</button>
+
+    <script>
+       function moveImage(direction) {
+        var image = document.getElementById('moving-image');
+        var step = 10; // Adjust the step size as needed
+
+        var currentTop = parseInt(image.style.top) || 0;
+        var currentLeft = parseInt(image.style.left) || 0;
+
+        switch (direction) {
+            case 'up':
+                image.style.top = (currentTop - step) + 'px';
+                break;
+            case 'down':
+                image.style.top = (currentTop + step) + 'px';
+                break;
+            case 'left':
+                image.style.left = (currentLeft - step) + 'px';
+                break;
+            case 'right':
+                image.style.left = (currentLeft + step) + 'px';
+                break;
+            default:
+                break;
+        }
+    }
+    </script>
+  {% endif %}
 
     <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
       <div class="right-frame">
@@ -99,14 +156,14 @@
          
         <script> 
           function sendData() { 
-              var value = document.getElementById('input').value; 
+              var value = document.getElementById('input').value;
               $.ajax({ 
                   url: '/process_print',
                   type: 'POST', 
                   contentType: 'application/json', 
                   data: JSON.stringify({ 'value': value }), 
                   success: function(response) { 
-                      document.getElementById('output').innerHTML = response.result; 
+                      document.getElementById('output').innerHTML = response.result;
                   }, 
                   error: function(error) { 
                       console.log(error); 
@@ -133,14 +190,18 @@
         <button onclick="submit()">Run</button>
         <script>
           function submit() {
-              var value = document.getElementById('input').value;
+              var image = document.getElementById('moving-image');
+              var currentLeft = parseInt(image.style.left) || 0;
+              var step = 0;
               $.ajax({
                   url: '/process_code',
                   type: 'POST',
                   contentType: 'application/json',
-                  data: JSON.stringify({ 'value': value }),
+                  data: JSON.stringify({ }),
                   success: function(response) {
-                      document.getElementById('output_code').innerHTML = response.result;
+                      document.getElementById('output_code_1').innerHTML = (response.result_x);
+                      image.style.left = response.result_x + 'px'
+                      image.style.top = response.result_y + 'px'
                   },
                   error: function(error) {
                       console.log(error);
@@ -181,6 +242,7 @@
       <button onclick="sendData()">Add</button>
     </p>
     {% endif %}
+
     {% if assign_vars%}
     <p>
       <input type="text" id="input_var_name"> =

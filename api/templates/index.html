@@ -3,53 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Character Movement Game</title>
+    <title>Move Image</title>
     <style>
-        #character {
+        /* Style for the container */
+        .container {
+            position: relative;
+            width: 500px; /* Adjust the width as needed */
+            height: 500px; /* Adjust the height as needed */
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        /* Style for the moving image */
+        #moving-image {
             position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: #3498db;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 50px; /* Adjust the width as needed */
+            height: 50px; /* Adjust the height as needed */
         }
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 
-    <div id="character"></div>
-<button onclick="moveCharacter('up')">Move Up</button>
-   <button onclick="moveCharacter('down')">Move Down</button>
-   <button onclick="moveCharacter('left')">Move Left</button>
-   <button onclick="moveCharacter('right')">Move Right</button>
+    <h1>Move Image</h1>
 
-   <script>
-       function moveCharacter(direction) {
-           const character = document.getElementById("character");
-           const speed = 10;
+    <div class="container">
+        <img id="moving-image" src="{{ url_for('static', filename='monkey.png') }}" alt="Moving Image">
+    </div>
 
-           let currentTop = parseInt(character.style.top) || 0;
-           let currentLeft = parseInt(character.style.left) || 0;
+    <button onclick="moveImage('up')">Move Up</button>
+    <button onclick="moveImage('down')">Move Down</button>
+    <button onclick="moveImage('left')">Move Left</button>
+    <button onclick="moveImage('right')">Move Right</button>
 
-           switch (direction) {
-               case 'up':
-                   character.style.top = (currentTop - speed) + "px";
-                   break;
-               case 'down':
-                   character.style.top = (currentTop + speed) + "px";
-                   break;
-               case 'left':
-                   character.style.left = (currentLeft - speed) + "px";
-                   break;
-               case 'right':
-                   character.style.left = (currentLeft + speed) + "px";
-                   break;
-           }
-       }
-   </script>
+    <script>
+       function moveImage(direction) {
+        var image = document.getElementById('moving-image');
+        var step = 10; // Adjust the step size as needed
 
+        var currentTop = parseInt(image.style.top) || 0;
+        var currentLeft = parseInt(image.style.left) || 0;
+
+        switch (direction) {
+            case 'up':
+                image.style.top = (currentTop - step) + 'px';
+                break;
+            case 'down':
+                image.style.top = (currentTop + step) + 'px';
+                break;
+            case 'left':
+                image.style.left = (currentLeft - step) + 'px';
+                break;
+            case 'right':
+                image.style.left = (currentLeft + step) + 'px';
+                break;
+            default:
+                break;
+        }
+    }
+    </script>
 
 </body>
 </html>

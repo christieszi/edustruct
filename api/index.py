@@ -42,24 +42,35 @@ def process_assign():
     result = '<br />'.join(str(x) for x in last)
     return jsonify(result=result) # return the result to JavaScript
 
+x = 0
+y = 0
+
 result = "Syntax Error"
 @app.route('/process_code', methods=['POST'])
 def process_code():
     global last
-    code = "\n".join(last)
+    global x
+    global y
+    last_editted = last
+    last_editted.insert(0, "x=" + str(x))
+    last_editted.insert(0, "y=" + str(y))
+    code = "\n".join(last_editted)
+    print(code)
     old_stdout = sys.stdout
     new_stdout = io.StringIO()
     sys.stdout = new_stdout
+    loc = {}
     try: 
-        exec(code)
+        exec(code, globals(), loc)
         result = sys.stdout.getvalue()
         sys.stdout = old_stdout
         
     except:
         result = "Syntax Error"
 
-    
-    return jsonify(result=result) # return the result to JavaScript
+    x = loc['x']
+    y = loc['y']
+    return jsonify(result_x=x, result_y=y) # return the result to JavaScript
 
 @app.route('/process_del', methods=['POST'])
 def process_del():
@@ -75,4 +86,14 @@ def process_del():
 @app.route('/monkey')
 def monkey():
     monkey_position = {'x': 0, 'y': 0}
-    return render_template('monkey.html', monkey_position=monkey_position)
+    return render_template('index.html', monkey_position=monkey_position)
+
+
+@app.context_processor
+def coordinate_processor():
+    global monkey_x
+    def return_x():
+        return monkey_x
+    def return_y():
+        return monkey_y
+    return dict(return_x=return_x, return_y=return_y)
