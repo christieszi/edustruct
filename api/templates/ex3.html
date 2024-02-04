@@ -61,7 +61,7 @@
     .grid-container {
         display: grid;
         grid-template-columns: repeat(5, 100px); /* Adjust the number of columns as needed */
-        grid-gap: 10px;
+        grid-gap: 0px;
     }
 
         /* Style for the monkey image */
@@ -82,19 +82,12 @@
         /* Style for the moving image */
         #moving-image {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 200px;
+            left: 200px;
             width: 100px; /* Adjust the width as needed */
             height: 100px; /* Adjust the height as needed */
         }
 
-        #moving-image2 {
-            position: absolute;
-            top: 0;
-            left: 202px;
-            width: 100px; /* Adjust the width as needed */
-            height: 100px; /* Adjust the height as needed */
-        }
 
 
   </style>
@@ -106,12 +99,36 @@
   </div>
 
   <div class="main-container">
+      <div class="container_image">
+      <img id="moving-image" src="{{ url_for('static', filename='car.png') }}" alt="Moving Image">
 
-    <div class="left-frame">
-
-    </div>
+      <div class="grid-container">
+          {% for x in range(5) %}
+              {% for y in range(5) %}
+                      <div style="width: 100px; height: 100px; border: 1px solid #ddd;">
+                        {% if x == 1 and y == 2 %}
+                            <div id="list_value"></div>
+                        {% endif %}
+                      {% if x == 3 and y == 0 %}
+                            <div id="l0"></div>
+                        {% endif %}
+                      {% if x == 3 and y == 1 %}
+                            <div id="l1"></div>
+                        {% endif %}
+                      {% if x == 3 and y == 2 %}
+                            <div id="l2"></div>
+                        {% endif %}
+                      {% if x == 3 and y == 3 %}
+                            <div id="l3"></div>
+                        {% endif %}
+                      {% if x == 3 and y == 4 %}
+                            <div id="l4"></div>
+                        {% endif %}
+                  </div>
+              {% endfor %}
+          {% endfor %}
       </div>
-
+       </div>
 
     <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
       <div class="right-frame">
@@ -120,9 +137,9 @@
         <div id="output"></div>
 
         <script>
-          function sendDataAssignList() {
-              var value = document.getElementById('list_val').value;
-              var varName = document.getElementById('list_name').value;
+          function sendDataAssignVar() {
+              var value = document.getElementById('input_var_val').value;
+              var varName = document.getElementById('input_var_name').value;
               $.ajax({
                   url: '/process_list_assign',
                   type: 'POST',
@@ -164,8 +181,13 @@
                   contentType: 'application/json',
                   data: JSON.stringify({}),
                   success: function(response) {
-                      document.getElementById('output_code').innerHTML = response.result;
                       image.style.left = response.result_x + 'px';
+                      document.getElementById('list_value').innerHTML = response.result_val;
+                      document.getElementById('l0').innerHTML = response.l0;
+                      document.getElementById('l1').innerHTML = response.l1;
+                      document.getElementById('l2').innerHTML = response.l2;
+                      document.getElementById('l3').innerHTML = response.l3;
+                      document.getElementById('l4').innerHTML = response.l4;
                   },
                   error: function(error) {
                       console.log(error);
@@ -202,16 +224,18 @@
     <h3>Blocks&nbsp; </h3>
     </p></p>
     <body>
+
     <p>
-      <input type="text" id="list_name"> =
-      [<input type="text" id="list_val">]
-      <button onclick="sendDataAssignList()">Add</button>
+      <input type="text" id="input_var_name"> =
+      [<input type="text" id="input_var_val">]
+      <button onclick="sendDataAssignVar()">Add</button>
     </p>
-        <p>
+    <p>
       <input type="text" id="var_name"> =
        <input type="text" id="accessed_list">[<input type="text" id="list_index">]
       <button onclick="sendDataAccessList()">Add</button>
     </p>
+
 
   </body>
   </div>

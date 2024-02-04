@@ -54,21 +54,25 @@ def process_list_assign():
     global last
     data = request.get_json() # retrieve the data sent from JavaScript
     # process the data using Python code
+    print("aaaaaa")
     value = data['value']
     var_name = data['var']
     last.append(var_name + " = [" + value + "]")
     result = '<br />'.join(str(x) for x in last)
     return jsonify(result=result) # return the result to JavaScript
 
+index = 0
 @app.route('/process_list_access', methods=['POST'])
 def process_list_access():
     global last
+    global index
     data = request.get_json() # retrieve the data sent from JavaScript
     # process the data using Python code
-    listName = data['listName']
+    list_name = data['listName']
     var_name = data['var']
-    index = data['index']
-    last.append(var_name + " = " + listName + "[" + index + "]")
+    index_val = data['index']
+    last.append(var_name + " = " + list_name + "[" + index_val + "]")
+    index = int(index_val)
     result = '<br />'.join(str(x) for x in last)
     return jsonify(result=result) # return the result to JavaScript
 
@@ -104,6 +108,40 @@ def process_code():
     y = 400 - loc['y']
     print(result)
     return jsonify(result = result, result_x=x, result_y=y) # return the result to JavaScript
+
+
+@app.route('/process_code_list', methods=['POST'])
+def process_code_list():
+    global last
+    global index
+    last_editted = []
+    last_editted.insert(0, "val=None")
+    for elem in last:
+        last_editted.append(elem)
+    for i in range(5):
+        last_editted.append('l' + str(i) + ' = my_list[' + str(i) + '] if len(my_list) > ' + str(i) + ' else ""' )
+    code = "\n".join(last_editted)
+    old_stdout = sys.stdout
+    new_stdout = io.StringIO()
+    sys.stdout = new_stdout
+    loc = {}
+    try:
+        exec(code, globals(), loc)
+        result = sys.stdout.getvalue()
+        sys.stdout = old_stdout
+
+    except:
+        result = "Syntax Error"
+
+    x_coor = 100 * index
+    val = loc['val']
+    l0 = loc['l0']
+    l1 = loc['l1']
+    l2 = loc['l2']
+    l3 = loc['l3']
+    l4 = loc['l4']
+    print(val)
+    return jsonify(result=result, result_x=x_coor, result_val=val, l0 = l0, l1 = l1, l2 = l2, l3 = l3, l4 = l4)  # return the result to JavaScript
 
 
 @app.route('/process_code_print', methods=['POST'])
