@@ -13,11 +13,15 @@ def about():
 
 @app.route('/1')
 def excercise1():
-    return render_template('code.html', print_button=True, assign_vars = False)
+    return render_template('code.html', print_button=True, assign_vars = False, list_button = False)
 
 @app.route('/2')
 def excercise2():
-    return render_template('code.html', print_button=False, assign_vars = True)
+    return render_template('code.html', print_button=False, assign_vars = True, list_button = False)
+
+@app.route('/3')
+def excercise3():
+    return render_template('code.html', print_button=False, assign_vars = False, list_button = True)
 
 last = []
 
@@ -39,6 +43,17 @@ def process_assign():
     value = data['value']
     var_name = data['var']
     last.append(var_name + " = " + value)
+    result = '<br />'.join(str(x) for x in last)
+    return jsonify(result=result) # return the result to JavaScript
+
+@app.route('/process_list_assign', methods=['POST'])
+def process_list_assign():
+    global last
+    data = request.get_json() # retrieve the data sent from JavaScript
+    # process the data using Python code
+    value = data['value']
+    var_name = data['var']
+    last.append(var_name + " = [" + value + "]")
     result = '<br />'.join(str(x) for x in last)
     return jsonify(result=result) # return the result to JavaScript
 

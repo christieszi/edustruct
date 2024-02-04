@@ -84,8 +84,16 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 50px; /* Adjust the width as needed */
-            height: 50px; /* Adjust the height as needed */
+            width: 100px; /* Adjust the width as needed */
+            height: 100px; /* Adjust the height as needed */
+        }
+
+        #moving-image2 {
+            position: absolute;
+            top: 0;
+            left: 202px;
+            width: 100px; /* Adjust the width as needed */
+            height: 100px; /* Adjust the height as needed */
         }
 
     
@@ -113,12 +121,16 @@
   {% if assign_vars %}
       <div class="container_image">
         <img id="moving-image" src="{{ url_for('static', filename='monkey.png') }}" alt="Moving Image">
-    </div>
+      <img id="moving-image2" src="{{ url_for('static', filename='banana.jpg') }}" alt="Moving Image">
 
-    <button onclick="moveImage('up')">Move Up</button>
-    <button onclick="moveImage('down')">Move Down</button>
-    <button onclick="moveImage('left')">Move Left</button>
-    <button onclick="moveImage('right')">Move Right</button>
+      <div class="grid-container">
+          {% for x in range(5) %}
+              {% for y in range(5) %}
+                      <div style="width: 100px; height: 100px; border: 1px solid #ddd;"></div>
+              {% endfor %}
+          {% endfor %}
+      </div>
+       </div>
 
     <script>
        function moveImage(direction) {
@@ -178,6 +190,39 @@
                   type: 'POST',
                   contentType: 'application/json',
                   data: JSON.stringify({ 'value': value, 'var': varName}),
+                  success: function(response) {
+                      document.getElementById('output').innerHTML = response.result;
+                  },
+                  error: function(error) {
+                      console.log(error);
+                  }
+              });
+          }
+          function sendDataAssignList() {
+              var value = document.getElementById('list_val').value;
+              var varName = document.getElementById('list_name').value;
+              $.ajax({
+                  url: '/process_list_assign',
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({ 'value': value, 'var': varName}),
+                  success: function(response) {
+                      document.getElementById('output').innerHTML = response.result;
+                  },
+                  error: function(error) {
+                      console.log(error);
+                  }
+              });
+          }
+          function sendDataAccessList() {
+              var varName = document.getElementById('var_name').value;
+              var listName = document.getElementById('accessed_list').value;
+              var index = document.getElementById('list_index').value;
+              $.ajax({
+                  url: '/process_list_assign',
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({ 'listName': listName, 'var': varName, 'index':index}),
                   success: function(response) {
                       document.getElementById('output').innerHTML = response.result;
                   },
@@ -251,6 +296,21 @@
       <input type="text" id="input_var_val">
       <button onclick="sendDataAssignVar()">Add</button>
     </p>
+    {% endif %}
+
+    {% if list_button%}
+    <p>
+      <input type="text" id="list_name"> =
+      [<input type="text" id="list_val">]
+      <button onclick="sendDataAssignList()">Add</button>
+    </p>
+        <p>
+      <input type="text" id="var_name"> =
+       <input type="text" id="accessed_list">[<input type="text" id="list_index">]
+      <button onclick="sendDataAccessList()">Add</button>
+    </p>
+
+
     {% endif %}
        
 
