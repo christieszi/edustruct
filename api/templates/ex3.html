@@ -49,7 +49,7 @@
     text-align: center;
     color: white;
     }
-    
+
     /* Centered text */
     .centered {
       position: absolute;
@@ -96,7 +96,7 @@
             height: 100px; /* Adjust the height as needed */
         }
 
-    
+
   </style>
 </head>
 <body>
@@ -106,6 +106,18 @@
   </div>
 
   <div class="main-container">
+    {% if print_button %}
+    <div class="left-frame">
+      <h2>Output</h2>
+      <div class="container">
+        <img src="{{ url_for('static', filename='OUTPUTT.jpg')}}" alt = "Image">
+        <div class="centered">
+          <div id = "output_code"></div>
+        </div>
+      </div>
+    </div>
+      {% endif %}
+  {% if assign_vars %}
       <div class="container_image">
         <img id="moving-image" src="{{ url_for('static', filename='monkey.png') }}" alt="Moving Image">
       <img id="moving-image2" src="{{ url_for('static', filename='banana.jpg') }}" alt="Moving Image">
@@ -119,13 +131,56 @@
       </div>
        </div>
 
+    <script>
+       function moveImage(direction) {
+        var image = document.getElementById('moving-image');
+        var step = 10; // Adjust the step size as needed
+
+        var currentTop = parseInt(image.style.top) || 0;
+        var currentLeft = parseInt(image.style.left) || 0;
+
+        switch (direction) {
+            case 'up':
+                image.style.top = (currentTop - step) + 'px';
+                break;
+            case 'down':
+                image.style.top = (currentTop + step) + 'px';
+                break;
+            case 'left':
+                image.style.left = (currentLeft - step) + 'px';
+                break;
+            case 'right':
+                image.style.left = (currentLeft + step) + 'px';
+                break;
+            default:
+                break;
+        }
+    }
+    </script>
+  {% endif %}
+
     <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
       <div class="right-frame">
         <body>
         <h2>Code</h2>
         <div id="output"></div>
-         
+
         <script>
+          function sendData() {
+              var value = document.getElementById('input').value;
+              $.ajax({
+                  url: '/process_print',
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({ 'value': value }),
+                  success: function(response) {
+                      document.getElementById('output').innerHTML = response.result;
+                  },
+                  error: function(error) {
+                      console.log(error);
+                  }
+              });
+          }
           function sendDataAssignVar() {
               var value = document.getElementById('input_var_val').value;
               var varName = document.getElementById('input_var_name').value;
@@ -134,6 +189,39 @@
                   type: 'POST',
                   contentType: 'application/json',
                   data: JSON.stringify({ 'value': value, 'var': varName}),
+                  success: function(response) {
+                      document.getElementById('output').innerHTML = response.result;
+                  },
+                  error: function(error) {
+                      console.log(error);
+                  }
+              });
+          }
+          function sendDataAssignList() {
+              var value = document.getElementById('list_val').value;
+              var varName = document.getElementById('list_name').value;
+              $.ajax({
+                  url: '/process_list_assign',
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({ 'value': value, 'var': varName}),
+                  success: function(response) {
+                      document.getElementById('output').innerHTML = response.result;
+                  },
+                  error: function(error) {
+                      console.log(error);
+                  }
+              });
+          }
+          function sendDataAccessList() {
+              var varName = document.getElementById('var_name').value;
+              var listName = document.getElementById('accessed_list').value;
+              var index = document.getElementById('list_index').value;
+              $.ajax({
+                  url: '/process_list_assign',
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({ 'listName': listName, 'var': varName, 'index':index}),
                   success: function(response) {
                       document.getElementById('output').innerHTML = response.result;
                   },
@@ -153,6 +241,7 @@
                   contentType: 'application/json',
                   data: JSON.stringify({}),
                   success: function(response) {
+                      document.getElementById('output_code').innerHTML = response.result;
                       image.style.left = response.result_x + 'px';
                       image.style.top = response.result_y + 'px';
                   },
@@ -179,9 +268,9 @@
         }
     </script>
       </body>
-      
-    
-  
+
+
+
     </div>
     <div class="right-middle-frame">
       <h3>Questions</h3>
@@ -191,13 +280,37 @@
     <h3>Blocks&nbsp; </h3>
     </p></p>
     <body>
+    {% if print_button %}
+    <p>
+        print(
+      <input type="text" id="input"> )
+      <button onclick="sendData()">Add</button>
+    </p>
+    {% endif %}
 
+    {% if assign_vars%}
     <p>
       <input type="text" id="input_var_name"> =
       <input type="text" id="input_var_val">
       <button onclick="sendDataAssignVar()">Add</button>
     </p>
-       
+    {% endif %}
+
+    {% if list_button%}
+    <p>
+      <input type="text" id="list_name"> =
+      [<input type="text" id="list_val">]
+      <button onclick="sendDataAssignList()">Add</button>
+    </p>
+        <p>
+      <input type="text" id="var_name"> =
+       <input type="text" id="accessed_list">[<input type="text" id="list_index">]
+      <button onclick="sendDataAccessList()">Add</button>
+    </p>
+
+
+    {% endif %}
+
 
   </body>
   </div>

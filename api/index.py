@@ -13,7 +13,7 @@ def about():
 
 @app.route('/1')
 def excercise1():
-    return render_template('code.html', print_button=True, assign_vars = False, list_button = False)
+    return render_template('ex1.html', print_button=True, assign_vars = False, list_button = False)
 
 @app.route('/2')
 def excercise2():
@@ -60,7 +60,6 @@ def process_list_assign():
 x = 0
 y = 0
 
-result = "Syntax Error"
 @app.route('/process_code', methods=['POST'])
 def process_code():
     global last
@@ -86,7 +85,26 @@ def process_code():
 
     x = loc['x']
     y = loc['y']
+    print(result)
     return jsonify(result = result, result_x=x, result_y=y) # return the result to JavaScript
+
+
+@app.route('/process_code_print', methods=['POST'])
+def process_code_print():
+    global last
+    print("Hello")
+    code = "\n".join(last)
+    old_stdout = sys.stdout
+    new_stdout = io.StringIO()
+    sys.stdout = new_stdout
+    try:
+        exec(code)
+        result = sys.stdout.getvalue()
+        sys.stdout = old_stdout
+    except:
+        result = "Syntax Error"
+    print(result)
+    return jsonify(result=result)  # return the result to JavaScript
 
 @app.route('/process_del', methods=['POST'])
 def process_del():
@@ -105,11 +123,3 @@ def monkey():
     return render_template('index.html', monkey_position=monkey_position)
 
 
-@app.context_processor
-def coordinate_processor():
-    global monkey_x
-    def return_x():
-        return monkey_x
-    def return_y():
-        return monkey_y
-    return dict(return_x=return_x, return_y=return_y)
