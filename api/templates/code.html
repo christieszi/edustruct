@@ -210,17 +210,36 @@
         <h3>Blocks: &nbsp; </h3>
 
         <p>
-            <input type="text" id="input_var_name"> =
-            <input type="text" id="input_var_val">
-            <button onclick="sendDataAssignVar()">Add</button>
+            x =<input type="text" id="input_var_val_x">
+            <button onclick="sendDataAssignVarX()">Add</button>
+        </p>
+        <p>
+            y =<input type="text" id="input_var_val_y">
+            <button onclick="sendDataAssignVarY()">Add</button>
         </p>
 
     </div>
 
     <script>
-        function sendDataAssignVar() {
-            var value = document.getElementById('input_var_val').value;
-            var varName = document.getElementById('input_var_name').value;
+        function sendDataAssignVarX() {
+            var value = document.getElementById('input_var_val_x').value;
+            var varName = 'x';
+            $.ajax({
+                url: '/process_assign',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ 'value': value, 'var': varName}),
+                success: function(response) {
+                    document.getElementById('output').innerHTML = response.result;
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+                function sendDataAssignVarY() {
+            var value = document.getElementById('input_var_val_y').value;
+            var varName = 'y';
             $.ajax({
                 url: '/process_assign',
                 type: 'POST',

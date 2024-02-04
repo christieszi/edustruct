@@ -234,13 +234,12 @@
     <h3>Blocks: &nbsp; </h3>
 
     <p>
-      <input type="text" id="input_var_name"> =
+      my_list =
       [<input type="text" id="input_var_val">]
       <button onclick="sendDataAssignVar()">Add</button>
     </p>
     <p>
-      <input type="text" id="var_name"> =
-      <input type="text" id="accessed_list">[<input type="text" id="list_index">]
+      val = my_list[<input type="text" id="list_index">]
       <button onclick="sendDataAccessList()">Add</button>
     </p>
   </div>
@@ -248,7 +247,7 @@
   <script>
     function sendDataAssignVar() {
       var value = document.getElementById('input_var_val').value;
-      var varName = document.getElementById('input_var_name').value;
+      var varName = 'my_list';
       $.ajax({
         url: '/process_list_assign',
         type: 'POST',
@@ -267,8 +266,8 @@
     }
 
     function sendDataAccessList() {
-      var varName = document.getElementById('var_name').value;
-      var listName = document.getElementById('accessed_list').value;
+      var varName = 'val';
+      var listName = 'my_list';
       var index = document.getElementById('list_index').value;
       $.ajax({
         url: '/process_list_access',
