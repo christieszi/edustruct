@@ -1,164 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Draggable Elements</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
- 
-    .top-frame, .bottom-frame {
-      height: 100px;
-      background-color: #3498db;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Elements</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
 
-    .main-container {
-      display: flex;
-      flex: 1;
-    }
+        .top-frame,
+        .bottom-frame {
+            height: 100px;
+            background-color: #3498db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+        }
 
-    .left-frame {
-      width: 800px;
-      background-color: #2ecc71;
-    }
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
 
-    .right-frames {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+        .left-frame {
+            width: 800px;
+            background-color: #2ecc71;
+        }
 
-    .right-frame {
-      flex: 2;
-      background-color: #e74c3c;
-      margin: 10px;
-      position: relative;
-    }
-    .right-middle-frame{
-      flex: 2;
-    }
-    
-    .container {
-    position: relative;
-    text-align: center;
-    color: white;
-    }
-    
-    /* Centered text */
-    .centered {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+        .right-frames {
+            flex: 1;
+            display: flex;
+            flex-direction: row; /* Updated to row */
+        }
 
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(5, 100px); /* Adjust the number of columns as needed */
-        grid-gap: 10px;
-    }
+        .right-frame {
+            flex: 1;
+            background-color: midnightblue;
 
-        /* Style for the monkey image */
-    .monkey {
-        width: 100%;
-        height: auto;
-    }
+            position: relative;
+            padding: 20px;
+        }
 
-    
-  </style>
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        input {
+            padding: 8px;
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .right-middle-frame {
+            flex: 1;
+            background-color: #9b59b6; /* Adjusted background color */
+
+            position: relative;
+            padding: 20px;
+
+        }
+
+
+        .container_image {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        #moving-image {
+            position: absolute;
+            top: 400px;
+            left: 400px;
+            width: 100px;
+            height: 100px;
+        }
+        #moving-image2 {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 100px);
+            grid-gap: 0px;
+        }
+
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        input {
+            padding: 8px;
+            margin-right: 5px;
+            font-size: 16px;
+        }
+    </style>
 </head>
+
 <body>
 
-  <div class="top-frame">
-    <h1>Top Frame</h1>
-  </div>
-
-  <div class="main-container">
-
-    <div class="left-frame">
-      <h2>Output</h2>
-      <div class="container">
-        <img src="{{ url_for('static', filename='OUTPUTT.jpg')}}" alt = "Image">
-        <div class="centered">
-          <div id = "output_code"></div>
-        </div>
-      </div>
+    <div class="top-frame">
+        <h1>Exercise 2: Simple maths</h1>
     </div>
 
-    <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
-      <div class="right-frame">
-        <body>
-        <h2>Code</h2>
-        <div id="output"></div>
-         
-        <script> 
-          function sendData() { 
-              var value = document.getElementById('input').value; 
-              $.ajax({ 
-                  url: '/process_print',
-                  type: 'POST', 
-                  contentType: 'application/json', 
-                  data: JSON.stringify({ 'value': value }), 
-                  success: function(response) { 
-                      document.getElementById('output').innerHTML = response.result; 
-                  }, 
-                  error: function(error) { 
-                      console.log(error); 
-                  } 
-              }); 
-          }
-          function sendDataAssignVar() {
-              var value = document.getElementById('input_var_val').value;
-              var varName = document.getElementById('input_var_name').value;
-              $.ajax({
-                  url: '/process_assign',
-                  type: 'POST',
-                  contentType: 'application/json',
-                  data: JSON.stringify({ 'value': value, 'var': varName}),
-                  success: function(response) {
-                      document.getElementById('output').innerHTML = response.result;
-                  },
-                  error: function(error) {
-                      console.log(error);
-                  }
-              });
-          }
-      </script>
-        <button onclick="submit()">Run</button>
-        <script>
-          function submit() {
-              var value = document.getElementById('input').value;
-              $.ajax({
-                  url: '/process_code',
-                  type: 'POST',
-                  contentType: 'application/json',
-                  data: JSON.stringify({ 'value': value }),
-                  success: function(response) {
-                      document.getElementById('output_code').innerHTML = response.result;
-                  },
-                  error: function(error) {
-                      console.log(error);
-                  }
-              });
-          }
-      </script>
-      <button onclick="poppy()">Delete Last</button>
-      <script>
-        function poppy() {
+    <div class="main-container">
+        <div class="container_image">
+            <img id="moving-image2" src="{{ url_for('static', filename='banana.jpg') }}" alt="Moving Image">
+            <img id="moving-image" src="{{ url_for('static', filename='monkey.png') }}" alt="Moving Image">
+
+            <div class="grid-container">
+                {% for x in range(5) %}
+                {% for y in range(5) %}
+                <div style="width: 100px; height: 100px; border: 1px solid #ddd;">
+                <div>  x:{{ y}}, y:{{ 4 - x }}</div>
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="right-frame">
+                <h2 style="color: #fff;">Code</h2>
+                <h3 style="color: white;" id="output"></h3>
+
+                <button onclick="submit()">Run</button>
+                <button onclick="poppy()">Delete Last</button>
+
+                <script>
+                    function submit() {
+                        var image = document.getElementById('moving-image');
+                        $.ajax({
+                            url: '/process_code',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({}),
+                            success: function(response) {
+                                image.style.left = response.result_x + 'px';
+                                image.style.top = response.result_y + 'px';
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
+                    }
+
+                    function poppy() {
+                        $.ajax({
+                            url: '/process_del',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            success: function(response) {
+                                document.getElementById('output').innerHTML = response.result;
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
+                    }
+                </script>
+            </div>
+            <div class="right-middle-frame">
+                <h2 style="color: #fff;">Question:</h2>
+                <h3 style="color: #fff;"> Set monkey's x and y coordinates so that it can catch the banana.</h3>
+                <h2 style="color: #fff;">Hint:</h2>
+                <h3 style="color: #fff;"> Use x= and y=. <br> Example: x = 1+2.</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-frame">
+        <h3>Blocks: &nbsp; </h3>
+
+        <p>
+            <input type="text" id="input_var_name"> =
+            <input type="text" id="input_var_val">
+            <button onclick="sendDataAssignVar()">Add</button>
+        </p>
+
+    </div>
+
+    <script>
+        function sendDataAssignVar() {
+            var value = document.getElementById('input_var_val').value;
+            var varName = document.getElementById('input_var_name').value;
             $.ajax({
-                url: '/process_del',
+                url: '/process_assign',
                 type: 'POST',
                 contentType: 'application/json',
+                data: JSON.stringify({ 'value': value, 'var': varName}),
                 success: function(response) {
                     document.getElementById('output').innerHTML = response.result;
                 },
@@ -168,46 +235,8 @@
             });
         }
     </script>
-      </body>
-      
-    
-  
-    </div>
-    <div class="right-middle-frame">
-      <h2>Questions</h2>
-      <h3>Task 1: Printing Your Introduction</h3>
-      <p>
-        Your first mission is to print a personalized introduction message using the print() function. Here's how you can do it:
-      </p>
-      <p>The print block has been made for you, all you have to do Is insert…</p>
-      <p>"Hello, my name is [Your Name]"</p>
-      <p>Replace [Your Name] with your actual name, and when you run this code, it will display the message "Hello, my name is [Your Name]" on the screen, with your name inserted into the message.
-        Go ahead, give it a try in the integrated coding environment!</p>
-
-    </div>
-
-  <div class="bottom-frame">
-    <h3>Blocks&nbsp; </h3>
-    </p></p>
-    <body>
-    {% if print_button %}
-    <p>
-        print(
-      <input type="text" id="input"> )
-      <button onclick="sendData()">Add</button>
-    </p>
-    {% endif %}
-    {% if assign_vars%}
-    <p>
-      <input type="text" id="input_var_name"> =
-      <input type="text" id="input_var_val">
-      <button onclick="sendDataAssignVar()">Add</button>
-    </p>
-    {% endif %}
-       
-
-  </body>
-  </div>
 
 </body>
+
 </html>
+
