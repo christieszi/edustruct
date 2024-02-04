@@ -1,134 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Draggable Elements</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Elements</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
 
-    .top-frame, .bottom-frame {
-      height: 100px;
-      background-color: #3498db;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+        .top-frame,
+        .bottom-frame {
+            height: 100px;
+            background-color: #3498db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+        }
 
-    .main-container {
-      display: flex;
-      flex: 1;
-    }
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
 
-    .left-frame {
-      width: 800px;
-      background-color: #2ecc71;
-    }
+        .left-frame {
+            width: 800px;
+            background-color: #2ecc71;
+            padding: 20px;
+            border-radius: 8px;
+        }
 
-    .right-frames {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+        .container {
+            position: relative;
+            text-align: center;
+            color: white;
+        }
 
-    .right-frame {
-      flex: 1;
-      background-color: #e74c3c;
-      margin: 10px;
-      position: relative;
-    }
-    .container {
-    position: relative;
-    text-align: center;
-    color: white;
-    }
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
 
-    /* Centered text */
-    .centered {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+        .right-frames {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
+        .right-frame {
+            flex: 1;
+            background-color: midnightblue;
+            margin: 10px;
+            position: relative;
+            padding: 20px;
+            border-radius: 8px;
+        }
 
-  </style>
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        input {
+            padding: 8px;
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .bottom-frame {
+            padding: 20px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 8px;
+        }
+    </style>
 </head>
+
 <body>
 
-  <div class="top-frame">
-    <h1>Top Frame</h1>
-  </div>
-
-  <div class="main-container">
-
-    <div class="left-frame">
-      <h2>Output</h2>
-      <div class="container">
-        <img src="{{ url_for('static', filename='OUTPUTT.jpg')}}" alt = "Image">
-        <div class="centered">
-          <div id = "output_code"></div>
-        </div>
-      </div>
+    <div class="top-frame">
+        <h1>Top Frame</h1>
     </div>
 
+    <div class="main-container">
 
-    <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
-      <div class="right-frame">
-        <body>
-        <h2>Code</h2>
-        <div id="output"></div>
+        <div class="left-frame">
+            <h2>Output</h2>
+            <div class="container">
+                <img src="{{ url_for('static', filename='OUTPUTT.jpg')}}" alt="Image">
+                <div class="centered">
+                    <h1 style="color: black;" id="output_code"></h1>
+                </div>
+            </div>
+        </div>
 
-        <script>
-          function sendData() {
-              var value = document.getElementById('input').value;
-              $.ajax({
-                  url: '/process_print',
-                  type: 'POST',
-                  contentType: 'application/json',
-                  data: JSON.stringify({ 'value': value }),
-                  success: function(response) {
-                      document.getElementById('output').innerHTML = response.result;
-                  },
-                  error: function(error) {
-                      console.log(error);
-                  }
-              });
-          }
+        <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="right-frame">
+                <h2 style="color: #fff;">Code</h2>
+                <h3 style="color: white;" id="output"></h3>
 
-      </script>
-        <button onclick="submit()">Run</button>
-        <script>
-          function submit() {
+                <button onclick="submit()">Run</button>
+                <button onclick="poppy()">Delete Last</button>
 
-              $.ajax({
-                  url: '/process_code_print',
-                  type: 'POST',
-                  contentType: 'application/json',
-                  data: JSON.stringify({}),
-                  success: function(response) {
-                      document.getElementById('output_code').innerHTML = response.result;
-                  },
-                  error: function(error) {
-                      console.log(error);
-                  }
-              });
-          }
-      </script>
-      <button onclick="poppy()">Delete Last</button>
-      <script>
-        function poppy() {
+                <script>
+                    function submit() {
+                        $.ajax({
+                            url: '/process_code_print',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({}),
+                            success: function(response) {
+                                document.getElementById('output_code').innerHTML = response.result;
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
+                    }
+
+                    function poppy() {
+                        $.ajax({
+                            url: '/process_del',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            success: function(response) {
+                                document.getElementById('output').innerHTML = response.result;
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
+                    }
+                </script>
+            </div>
+            <div class="right-middle-frame">
+                <h3 style="color: #fff;">Questions</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-frame">
+        <h3>Blocks: &nbsp;</h3>
+        <p>
+            print(
+            <input type="text" id="input">)
+            <button onclick="sendData()">Add</button>
+        </p>
+    </div>
+
+    <script>
+        function sendData() {
+            var value = document.getElementById('input').value;
             $.ajax({
-                url: '/process_del',
+                url: '/process_print',
                 type: 'POST',
                 contentType: 'application/json',
+                data: JSON.stringify({ 'value': value }),
                 success: function(response) {
                     document.getElementById('output').innerHTML = response.result;
                 },
@@ -138,29 +185,7 @@
             });
         }
     </script>
-      </body>
-
-
-
-    </div>
-    <div class="right-middle-frame">
-      <h3>Questions</h3>
-    </div>
-
-  <div class="bottom-frame">
-    <h3>Blocks&nbsp; </h3>
-    </p></p>
-    <body>
-    <p>
-        print(
-      <input type="text" id="input"> )
-      <button onclick="sendData()">Add</button>
-    </p>
-
-
-
-  </body>
-  </div>
 
 </body>
+
 </html>
