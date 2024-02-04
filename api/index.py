@@ -1,30 +1,36 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for
 import io, sys
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
+# replace the name of the app with the name of our app
+app.config['APP_NAME'] = 'EduStruct'
 
-
+@app.route('/index')
 @app.route('/')
 def home():
-    return 'Hello peasants :)'
+    return render_template('index.html')
 
 
 @app.route('/about')
 def about():
-    return 'About'
+    return render_template('about.html')
 
 
-@app.route('/1')
+@app.route('/exercises')
+def exercises():
+    return render_template('exercises.html')
+    
+@app.route('/exercises/1')
 def excercise1():
     return render_template('ex1.html', print_button=True, assign_vars=False, list_button=False)
 
 
-@app.route('/2')
+@app.route('/exercises/2')
 def excercise2():
     return render_template('code.html', print_button=False, assign_vars=True, list_button=False)
 
 
-@app.route('/3')
+@app.route('/exercises/3')
 def excercise3():
     return render_template('ex3.html', print_button=False, assign_vars=False, list_button=True)
 
@@ -194,4 +200,3 @@ def process_del():
 def monkey():
     monkey_position = {'x': 0, 'y': 0}
     return render_template('index.html', monkey_position=monkey_position)
-

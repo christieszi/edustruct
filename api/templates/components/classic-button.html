@@ -1,0 +1,13 @@
+{% macro button(text, icon=None, color_btn=None) %}
+<button class="button-82-pushable" role="button">
+    <span class="button-82-shadow"></span>
+    <span {% if color_btn %} class="button-82-edge {{color_btn}}" {% else %} class="button-82-edge" {% endif %}>
+    </span>
+    <span class="button-82-front text d-flex gap-2 align-items-center justify-content-center {{color_btn}}">
+        {% if icon %}
+        <i class=" {{icon}} fs-2"></i>
+        {% endif %}
+        <span class="text">{{text}}</span>
+    </span>
+</button>
+{% endmacro %}

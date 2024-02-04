@@ -1,0 +1,53 @@
+<nav class="navbar">
+    <div class="exercise-nav-bar-container w-100">
+        <div class="container">
+            <div class="nav-content d-flex justify-content-between align-items-center ">
+                <div class="home-icon-container">
+
+                    <!-- <button class="button-82-pushable" role="button">
+                        <span class="button-82-shadow"></span>
+                        <span class="button-82-edge"></span>
+                        <span class="button-82-front text d-flex gap-2 align-items-center justify-content-center">
+                            <i class="fa-duotone fa-house-chimney fs-2"></i>
+                            <span class="text">Home</span>
+                        </span>
+                    </button> -->
+                    {{ button('Home', 'fa-duotone fa-house-chimney', 'red') }}
+                    <!-- {{ button('Home') }} without icon -->
+                    <!-- <a class="btn btn-secondary" id="home-icon" href="/"> -->
+                    </a>
+                </div>
+                <div class="nav-logo-container">
+                    <a href="/">
+                        <img src="{{ url_for('static', filename='assets/logo.svg') }}" alt="EduStruct Logo" />
+                    </a>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="exerciseStatsDropdown"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Exercise Stats
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="exerciseStatsDropdown">
+                        <div class="dropdown-item ">
+                            <span class="text-muted">Total</span>
+                            <span class="text-header">10</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <span class="text-muted">Completed</span>
+                            <span class="text-header">5</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <span class="text-muted">Pending</span>
+                            <span class="text-header">5</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <span class="text-muted">In Progress</span>
+                            <span class="text-header">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</nav>
