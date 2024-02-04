@@ -19,17 +19,18 @@ def about():
 @app.route('/exercises')
 def exercises():
     return render_template('exercises.html')
-@app.route('/1')
+    
+@app.route('/exercises/1')
 def excercise1():
     return render_template('ex1.html', print_button=True, assign_vars=False, list_button=False)
 
 
-@app.route('/2')
+@app.route('/exercises/2')
 def excercise2():
     return render_template('code.html', print_button=False, assign_vars=True, list_button=False)
 
 
-@app.route('/3')
+@app.route('/exercises/3')
 def excercise3():
     return render_template('ex3.html', print_button=False, assign_vars=False, list_button=True)
 
