@@ -22,31 +22,60 @@
     <a href="about">About</a>
 </nav> -->
 
-<div class="main-container">
+<div class="container h-100">
 
-    <div class="top-frame">
-        <h2>The best introduction to coding</h2>
+    <div
+        class="main-container container d-flex gap-2 h-100 col-10 col-md-10 w-100 align-items-center justify-content-around">
+        <div class="hero-container container d-flex justify-content-between align-items-center h-75">
+            <div class="top-frame d-flex flex-column gap-2 align-items-start justify-content-center">
+                <h1 class="lead text-header h1 px-4 text-left fw-bolder text-capitalize w-75">
+                    The best introduction to coding
+                </h1>
+                <p class="text-header px-4 text-left w-75 text-muted">
+                    EduStruct is a platform that provides the best introduction to coding for kids and beginners.
+                </p>
+                <div class="hero-btn-container px-4 w-75 gap-3 d-flex ">
+                    <a href="exercises" class="btn btn-primary text-white rounded-lg">Get Started</a>
+                    <a href="about" class="btn  text-dark rounded-lg">
+                        <div class="link-btn-container d-flex gap-2 align-items-center">
+
+                            <span>
+                                Learn More
+                            </span>
+                            <i class="fa-regular fa-arrow-right-long"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-img-container">
+                <img src="{{ url_for('static', filename='assets/media/hero-banner-img.jpg') }}"
+                    alt="Teacher teaching kids how to code" height="400" />
+            </div>
+
+        </div>
     </div>
 
-    <div class="middle-frame">
-        <div class="inner-middle-frame">
-            <h2>Frame 1</h2>
-        </div>
-        <div class="inner-middle-frame">
-            <h2>Frame 2</h2>
-        </div>
-        <div class="inner-middle-frame">
-            <h2>Frame 3</h2>
-        </div>
-        <div class="inner-middle-frame">
-            <h2>Frame 4</h2>
-        </div>
-    </div>
+    <!-- <div class="middle-frame">
+            <div class="inner-middle-frame">
+                <h2>Frame 1</h2>
+            </div>
+            <div class="inner-middle-frame">
+                <h2>Frame 2</h2>
+            </div>
+            <div class="inner-middle-frame">
+                <h2>Frame 3</h2>
+            </div>
+            <div class="inner-middle-frame">
+                <h2>Frame 4</h2>
+            </div>
+        </div> -->
 
 </div>
 
 <div class="bottom-frame">
     <h3>Bottom Frame</h3>
 </div>
+</div>
+
 
 {% endblock body %}
