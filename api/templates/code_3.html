@@ -49,7 +49,7 @@
     text-align: center;
     color: white;
     }
-
+    
     /* Centered text */
     .centered {
       position: absolute;
@@ -96,7 +96,7 @@
             height: 100px; /* Adjust the height as needed */
         }
 
-
+    
   </style>
 </head>
 <body>
@@ -106,45 +106,34 @@
   </div>
 
   <div class="main-container">
+      <div class="container_image">
+        <img id="moving-image" src="{{ url_for('static', filename='monkey.png') }}" alt="Moving Image">
+      <img id="moving-image2" src="{{ url_for('static', filename='banana.jpg') }}" alt="Moving Image">
 
-    <div class="left-frame">
-
-    </div>
+      <div class="grid-container">
+          {% for x in range(5) %}
+              {% for y in range(5) %}
+                      <div style="width: 100px; height: 100px; border: 1px solid #ddd;"></div>
+              {% endfor %}
+          {% endfor %}
       </div>
-
+       </div>
 
     <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
       <div class="right-frame">
         <body>
         <h2>Code</h2>
         <div id="output"></div>
-
+         
         <script>
-          function sendDataAssignList() {
-              var value = document.getElementById('list_val').value;
-              var varName = document.getElementById('list_name').value;
+          function sendDataAssignVar() {
+              var value = document.getElementById('input_var_val').value;
+              var varName = document.getElementById('input_var_name').value;
               $.ajax({
-                  url: '/process_list_assign',
+                  url: '/process_assign',
                   type: 'POST',
                   contentType: 'application/json',
                   data: JSON.stringify({ 'value': value, 'var': varName}),
-                  success: function(response) {
-                      document.getElementById('output').innerHTML = response.result;
-                  },
-                  error: function(error) {
-                      console.log(error);
-                  }
-              });
-          }
-          function sendDataAccessList() {
-              var varName = document.getElementById('var_name').value;
-              var listName = document.getElementById('accessed_list').value;
-              var index = document.getElementById('list_index').value;
-              $.ajax({
-                  url: '/process_list_access',
-                  type: 'POST',
-                  contentType: 'application/json',
-                  data: JSON.stringify({ 'listName': listName, 'var': varName, 'index':index}),
                   success: function(response) {
                       document.getElementById('output').innerHTML = response.result;
                   },
@@ -159,13 +148,13 @@
           function submit() {
               var image = document.getElementById('moving-image');
               $.ajax({
-                  url: '/process_code_list',
+                  url: '/process_code',
                   type: 'POST',
                   contentType: 'application/json',
                   data: JSON.stringify({}),
                   success: function(response) {
-                      document.getElementById('output_code').innerHTML = response.result;
                       image.style.left = response.result_x + 'px';
+                      image.style.top = response.result_y + 'px';
                   },
                   error: function(error) {
                       console.log(error);
@@ -190,9 +179,9 @@
         }
     </script>
       </body>
-
-
-
+      
+    
+  
     </div>
     <div class="right-middle-frame">
       <h3>Questions</h3>
@@ -202,16 +191,13 @@
     <h3>Blocks&nbsp; </h3>
     </p></p>
     <body>
+
     <p>
-      <input type="text" id="list_name"> =
-      [<input type="text" id="list_val">]
-      <button onclick="sendDataAssignList()">Add</button>
+      <input type="text" id="input_var_name"> =
+      <input type="text" id="input_var_val">
+      <button onclick="sendDataAssignVar()">Add</button>
     </p>
-        <p>
-      <input type="text" id="var_name"> =
-       <input type="text" id="accessed_list">[<input type="text" id="list_index">]
-      <button onclick="sendDataAccessList()">Add</button>
-    </p>
+       
 
   </body>
   </div>
