@@ -1,4 +1,5 @@
 {% extends "master.html" %}
+{% from "components/cards.html" import card %}
 
 <!-- set the title of title -->
 {% block title %}Home{% endblock %}
@@ -10,21 +11,11 @@
 {% block body %}
 
 
-<!-- <div class="header">
-    <h1>Welcome to EduStruct</h1>
-</div> -->
-
 {% include "components/main-navbar.html" %}
-
-<!-- <nav class="topnav">
-    <a class="active" href="">Home</a>
-    <a href="exercises">Exercises</a>
-    <a href="about">About</a>
-</nav> -->
 
 <div class="container h-100">
 
-    <div
+    <section
         class="main-container container d-flex gap-2 h-100 col-10 col-md-10 w-100 align-items-center justify-content-around">
         <div class="hero-container container d-flex justify-content-between align-items-center h-75 py-4">
             <div class="top-frame d-flex flex-column gap-2 align-items-start justify-content-center w-75 ">
@@ -53,31 +44,45 @@
             </div>
 
         </div>
+    </section>
+</div>
+
+<section class="purpose-section bg-light h-100 d-flex flex-column align-items-center justify-content-center">
+    <div class="container px-5 d-flex flex-column gap-5 align-items-center justify-content-center">
+        <div class="container-content">
+            <div class="section-top-headind d-flex flex-column gap-2 align-items-center justify-content-center">
+                <!-- <span class="text-muted text-small">Unlock the world of creativity and logic for your child.</span> -->
+                <span class="text-muted small">Empower Your Child's Future with Fun Coding! </span>
+                <!-- <h2>Empower Your Child's Future with Fun Coding!</h2>Ready for Fun Coding?  -->
+                <div
+                    class="purpose-section-head-with-icon d-flex flex-column w-100 align-items-center justify-content-center">
+                    <h2 class="text-header h2 fw-bolder text-capitalize w-100 fs-2 text-center">
+                        Ready for Fun Coding?
+                    </h2>
+                    <div class="purpose-section-head-icons">
+                        <i class="fa-light text-muted fs-4 fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // i need three cards with reposinvness with crads and heading and descripiton with icons  -->
+        <div class="purpose-cards-container row justify-content-around align-items-center text-center">
+            {{ card('fa-duotone fa-code ', 'Make Coding Fun!', 'Learning to code doesn\'t have to be boring. Our
+            platform turns coding into an exciting game, keeping kids engaged while they learn valuable skills.',
+            'exercises') }}
+            {{ card('fa-duotone fa-robot ', 'Interactive Learning', 'Our platform provides a hands-on learning
+            experience. Kids can run code snippets and see the results instantly, making learning interactive and fun.',
+            'exercises') }}
+            {{ card('fa-duotone fa-graduation-cap', 'Learn at Your Own Pace', 'Every child is unique. Our platform
+            allows kids to learn at their own pace, providing a safe and supportive environment for them to explore the
+            world of coding.',
+            'exercises') }}
+        </div>
     </div>
+</section>
 
-    <!-- <div class="middle-frame">
-            <div class="inner-middle-frame">
-                <h2>Frame 1</h2>
-            </div>
-            <div class="inner-middle-frame">
-                <h2>Frame 2</h2>
-            </div>
-            <div class="inner-middle-frame">
-                <h2>Frame 3</h2>
-            </div>
-            <div class="inner-middle-frame">
-                <h2>Frame 4</h2>
-            </div>
-        </div> -->
-
-</div>
-
-<div class="bottom-frame">
-    <h3>Bottom Frame</h3>
-</div>
-</div>
 
 <img class="animated-svg" src="{{ url_for('static', filename='assets/media/svg/animated-shapes.svg') }}"
-    alt="Teacher teaching kids how to code" height="400" />
+    alt="Teacher teaching kids how to code" height="100%" />
 
 {% endblock body %}
