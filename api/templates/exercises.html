@@ -60,6 +60,15 @@
     var navbarHeight = $('.navbar').outerHeight();
     console.log(navbarHeight);
     $('.exercises-list-main').css('height', 'calc(100vh - ' + navbarHeight + 'px)');
+
+    // get the button by id btn_id
+    var btn_id = document.getElementById('home-page-btn');
+    // add event listener to the button
+    btn_id.addEventListener('click', function () {
+      // redirect to the homepage
+      window.location.href = '/';
+    });
+
   });
 </script>
 {% endblock body %}
