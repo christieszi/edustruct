@@ -42,17 +42,43 @@
         .right-frames {
             flex: 1;
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Updated to row */
         }
 
         .right-frame {
             flex: 1;
-            background-color:  midnightblue;
-            margin: 10px;
+            background-color: midnightblue;
+
             position: relative;
             padding: 20px;
-            border-radius: 8px;
         }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        input {
+            padding: 8px;
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .right-middle-frame {
+            flex: 1;
+            background-color: #9b59b6; /* Adjusted background color */
+
+            position: relative;
+            padding: 20px;
+
+        }
+
 
         .container_image {
             position: relative;
@@ -171,7 +197,10 @@
                 </script>
             </div>
             <div class="right-middle-frame">
-                <h3 style="color: #fff;">Questions</h3>
+                <h2 style="color: #fff;">Question:</h2>
+                <h3 style="color: #fff;"> Set monkey's x and y coordinates so that it can catch the banana.</h3>
+                <h2 style="color: #fff;">Hint:</h2>
+                <h3 style="color: #fff;"> Use x= and y=. <br> Example: x = 1+2.</h3>
             </div>
         </div>
 

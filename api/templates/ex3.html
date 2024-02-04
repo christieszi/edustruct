@@ -39,20 +39,45 @@
       background-color: #2ecc71;
     }
 
-    .right-frames {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+           .right-frames {
+            flex: 1;
+            display: flex;
+            flex-direction: row; /* Updated to row */
+        }
 
-    .right-frame {
-      flex: 1;
-      background-color: midnightblue;
-      margin: 10px;
-      position: relative;
-      padding: 20px;
-      border-radius: 8px;
-    }
+        .right-frame {
+            flex: 1;
+            background-color: midnightblue;
+
+            position: relative;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        input {
+            padding: 8px;
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .right-middle-frame {
+            flex: 1;
+            background-color: #9b59b6; /* Adjusted background color */
+
+            position: relative;
+            padding: 20px;
+
+        }
 
     .container_image {
       position: relative;
@@ -196,8 +221,11 @@
         </script>
       </div>
       <div class="right-middle-frame">
-        <h3 style="color: #fff;">Questions</h3>
-      </div>
+                <h2 style="color: #fff;">Question:</h2>
+                <h3 style="color: #fff;"> Create a list, and make your car move along it and display values!</h3>
+                <h2 style="color: #fff;">Hint:</h2>
+                <h3 style="color: #fff;"> Use list = [...] and val=list[..] commands. <br> Example: list=[1, 2, 3] and val=list[2].</h3>
+            </div>
     </div>
 
   </div>
