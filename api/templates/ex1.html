@@ -49,7 +49,7 @@
     text-align: center;
     color: white;
     }
-    
+
     /* Centered text */
     .centered {
       position: absolute;
@@ -58,45 +58,7 @@
       transform: translate(-50%, -50%);
     }
 
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(5, 100px); /* Adjust the number of columns as needed */
-        grid-gap: 10px;
-    }
 
-        /* Style for the monkey image */
-    .monkey {
-        width: 100%;
-        height: auto;
-    }
-
-          /* Style for the container */
-        .container_image {
-            position: relative;
-            width: 500px; /* Adjust the width as needed */
-            height: 500px; /* Adjust the height as needed */
-            border: 1px solid #ccc;
-            overflow: hidden;
-        }
-
-        /* Style for the moving image */
-        #moving-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100px; /* Adjust the width as needed */
-            height: 100px; /* Adjust the height as needed */
-        }
-
-        #moving-image2 {
-            position: absolute;
-            top: 0;
-            left: 202px;
-            width: 100px; /* Adjust the width as needed */
-            height: 100px; /* Adjust the height as needed */
-        }
-
-    
   </style>
 </head>
 <body>
@@ -106,34 +68,32 @@
   </div>
 
   <div class="main-container">
-      <div class="container_image">
-        <img id="moving-image" src="{{ url_for('static', filename='monkey.png') }}" alt="Moving Image">
-      <img id="moving-image2" src="{{ url_for('static', filename='banana.jpg') }}" alt="Moving Image">
 
-      <div class="grid-container">
-          {% for x in range(5) %}
-              {% for y in range(5) %}
-                      <div style="width: 100px; height: 100px; border: 1px solid #ddd;"></div>
-              {% endfor %}
-          {% endfor %}
+    <div class="left-frame">
+      <h2>Output</h2>
+      <div class="container">
+        <img src="{{ url_for('static', filename='OUTPUTT.jpg')}}" alt = "Image">
+        <div class="centered">
+          <div id = "output_code"></div>
+        </div>
       </div>
-       </div>
+    </div>
+
 
     <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
       <div class="right-frame">
         <body>
         <h2>Code</h2>
         <div id="output"></div>
-         
+
         <script>
-          function sendDataAssignVar() {
-              var value = document.getElementById('input_var_val').value;
-              var varName = document.getElementById('input_var_name').value;
+          function sendData() {
+              var value = document.getElementById('input').value;
               $.ajax({
-                  url: '/process_assign',
+                  url: '/process_print',
                   type: 'POST',
                   contentType: 'application/json',
-                  data: JSON.stringify({ 'value': value, 'var': varName}),
+                  data: JSON.stringify({ 'value': value }),
                   success: function(response) {
                       document.getElementById('output').innerHTML = response.result;
                   },
@@ -142,19 +102,19 @@
                   }
               });
           }
+
       </script>
         <button onclick="submit()">Run</button>
         <script>
           function submit() {
-              var image = document.getElementById('moving-image');
+
               $.ajax({
-                  url: '/process_code',
+                  url: '/process_code_print',
                   type: 'POST',
                   contentType: 'application/json',
                   data: JSON.stringify({}),
                   success: function(response) {
-                      image.style.left = response.result_x + 'px';
-                      image.style.top = response.result_y + 'px';
+                      document.getElementById('output_code').innerHTML = response.result;
                   },
                   error: function(error) {
                       console.log(error);
@@ -179,9 +139,9 @@
         }
     </script>
       </body>
-      
-    
-  
+
+
+
     </div>
     <div class="right-middle-frame">
       <h3>Questions</h3>
@@ -191,13 +151,13 @@
     <h3>Blocks&nbsp; </h3>
     </p></p>
     <body>
-
     <p>
-      <input type="text" id="input_var_name"> =
-      <input type="text" id="input_var_val">
-      <button onclick="sendDataAssignVar()">Add</button>
+        print(
+      <input type="text" id="input"> )
+      <button onclick="sendData()">Add</button>
     </p>
-       
+
+
 
   </body>
   </div>
