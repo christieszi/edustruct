@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draggable Elements</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .top-frame,
+    .bottom-frame {
+      height: 100px;
+      background-color: #3498db;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 24px;
+    }
+
+    .main-container {
+      display: flex;
+      flex: 1;
+    }
+
+    .left-frame {
+      width: 800px;
+      background-color: #2ecc71;
+    }
+
+           .right-frames {
+            flex: 1;
+            display: flex;
+            flex-direction: row; /* Updated to row */
+        }
+
+        .right-frame {
+            flex: 1;
+            background-color: midnightblue;
+
+            position: relative;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        input {
+            padding: 8px;
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .right-middle-frame {
+            flex: 1;
+            background-color: #9b59b6; /* Adjusted background color */
+
+            position: relative;
+            padding: 20px;
+
+        }
+
+    .container_image {
+      position: relative;
+      width: 500px;
+      height: 500px;
+      border: 1px solid #ccc;
+      overflow: hidden;
+    }
+
+    #moving-image {
+      position: absolute;
+      top: 200px;
+      left: 200px;
+      width: 100px;
+      height: 100px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(5, 100px);
+      grid-gap: 0px;
+    }
+
+    .centered {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .grid-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+    button {
+      padding: 10px;
+      margin-top: 10px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+
+    input {
+      padding: 8px;
+      margin-right: 5px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-frame">
+    <h1>Excercise 3: Lists</h1>
+  </div>
+
+  <div class="main-container">
+    <div class="container_image">
+      <img id="moving-image" src="{{ url_for('static', filename='car.png') }}" alt="Moving Image">
+
+      <div class="grid-container">
+        {% for x in range(5) %}
+        {% for y in range(5) %}
+        <div style="width: 100px; height: 100px; border: 1px solid #ddd;">
+         {% if x == 1 and y == 2 %}
+        <h3 class="grid-item" style="color: black;" >Value:</h3>
+        {% endif %}
+          {% if x == 1 and y == 2 %}
+            <h3 class="grid-item" style="color: black;" id="list_value" ></h3>
+          {% endif %}
+          {% if x == 3 and y == 0 %}
+          <h3 class="grid-item" style="color: black;" id="l0" ></>
+          {% endif %}
+          {% if x == 3 and y == 1 %}
+          <h3 class="grid-item" style="color: black;" id="l1" ></>
+          {% endif %}
+          {% if x == 3 and y == 2 %}
+          <h3 class="grid-item" style="color: black;" id="l2" ></>
+          {% endif %}
+          {% if x == 3 and y == 3 %}
+          <h3 class="grid-item" style="color: black;" id="l3" ></>
+          {% endif %}
+          {% if x == 3 and y == 4 %}
+          <h3 class="grid-item" style="color: black;" id="l4" ></>
+          {% endif %}
+        </div>
+        {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <div class="right-frame">
+        <h2 style="color:white;">Code</h2>
+        <h3 style="color: white;" id="output"></h3>
+
+        <button onclick="submit()">Run</button>
+        <button onclick="poppy()">Delete Last</button>
+
+        <script>
+          function submit() {
+            var image = document.getElementById('moving-image');
+            $.ajax({
+              url: '/process_code_list',
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({}),
+              success: function (response) {
+                image.style.left = response.result_x + 'px';
+                document.getElementById('list_value').innerHTML = response.result_val;
+                document.getElementById('l0').innerHTML = response.l0;
+                document.getElementById('l1').innerHTML = response.l1;
+                document.getElementById('l2').innerHTML = response.l2;
+                document.getElementById('l3').innerHTML = response.l3;
+                document.getElementById('l4').innerHTML = response.l4;
+              },
+              error: function (error) {
+                console.log(error);
+              }
+            });
+          }
+
+          function poppy() {
+            $.ajax({
+              url: '/process_del',
+              type: 'POST',
+              contentType: 'application/json',
+              success: function (response) {
+                document.getElementById('output').innerHTML = response.result;
+              },
+              error: function (error) {
+                console.log(error);
+              }
+            });
+          }
+        </script>
+      </div>
+      <div class="right-middle-frame">
+                <h2 style="color: #fff;">Question:</h2>
+                <h3 style="color: #fff;"> Create a list, and make your car move along it and display values!</h3>
+                <h2 style="color: #fff;">Hint:</h2>
+                <h3 style="color: #fff;"> Use list = [...] and val=list[..] commands. <br> Example: list=[1, 2, 3] and val=list[2].</h3>
+            </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-frame">
+    <h3>Blocks: &nbsp; </h3>
+
+    <p>
+      <input type="text" id="input_var_name"> =
+      [<input type="text" id="input_var_val">]
+      <button onclick="sendDataAssignVar()">Add</button>
+    </p>
+    <p>
+      <input type="text" id="var_name"> =
+      <input type="text" id="accessed_list">[<input type="text" id="list_index">]
+      <button onclick="sendDataAccessList()">Add</button>
+    </p>
+  </div>
+
+  <script>
+    function sendDataAssignVar() {
+      var value = document.getElementById('input_var_val').value;
+      var varName = document.getElementById('input_var_name').value;
+      $.ajax({
+        url: '/process_list_assign',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          'value': value,
+          'var': varName
+        }),
+        success: function (response) {
+          document.getElementById('output').innerHTML = response.result;
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      });
+    }
+
+    function sendDataAccessList() {
+      var varName = document.getElementById('var_name').value;
+      var listName = document.getElementById('accessed_list').value;
+      var index = document.getElementById('list_index').value;
+      $.ajax({
+        url: '/process_list_access',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          'listName': listName,
+          'var': varName,
+          'index': index
+        }),
+        success: function (response) {
+          document.getElementById('output').innerHTML = response.result;
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      });
+    }
+  </script>
+
+</body>
+
+</html>

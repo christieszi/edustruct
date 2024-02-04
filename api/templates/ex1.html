@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Elements</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .top-frame,
+        .bottom-frame {
+            height: 100px;
+            background-color: #3498db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .left-frame {
+            width: 800px;
+            background-color: #2ecc71;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .container {
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .right-frames {
+            flex: 1;
+            display: flex;
+            flex-direction: row; /* Updated to row */
+        }
+
+        .right-frame {
+            flex: 1;
+            background-color: midnightblue;
+
+            position: relative;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        input {
+            padding: 8px;
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .right-middle-frame {
+            flex: 1;
+            background-color: #9b59b6; /* Adjusted background color */
+
+            position: relative;
+            padding: 20px;
+
+        }
+
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        input {
+            padding: 8px;
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .bottom-frame {
+            padding: 20px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-frame">
+        <h1>Exercise 1: Prinitng</h1>
+    </div>
+
+    <div class="main-container">
+
+        <div class="left-frame">
+            <h2>Output</h2>
+            <div class="container">
+                <img src="{{ url_for('static', filename='OUTPUTT.jpg')}}" alt="Image">
+                <div class="centered">
+                    <h1 style="color: black;" id="output_code"></h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-frames" id="right-frame-1" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="right-frame">
+                <h2 style="color: #fff;">Code</h2>
+                <h3 style="color: white;" id="output"></h3>
+
+                <button onclick="submit()">Run</button>
+                <button onclick="poppy()">Delete Last</button>
+
+                <script>
+                    function submit() {
+                        $.ajax({
+                            url: '/process_code_print',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({}),
+                            success: function(response) {
+                                document.getElementById('output_code').innerHTML = response.result;
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
+                    }
+
+                    function poppy() {
+                        $.ajax({
+                            url: '/process_del',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            success: function(response) {
+                                document.getElementById('output').innerHTML = response.result;
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
+                    }
+                </script>
+            </div>
+            <div class="right-middle-frame">
+                <h2 style="color: #fff;">Question:</h2>
+                <h3 style="color: #fff;"> Print your name so that you can see it on the screen.</h3>
+                <h2 style="color: #fff;">Hint:</h2>
+                <h3 style="color: #fff;"> Use print command. <br> Example: print("Hello world").</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-frame">
+        <h3>Blocks: &nbsp;</h3>
+        <p>
+            print(
+            <input type="text" id="input">)
+            <button onclick="sendData()">Add</button>
+        </p>
+    </div>
+
+    <script>
+        function sendData() {
+            var value = document.getElementById('input').value;
+            $.ajax({
+                url: '/process_print',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ 'value': value }),
+                success: function(response) {
+                    document.getElementById('output').innerHTML = response.result;
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
